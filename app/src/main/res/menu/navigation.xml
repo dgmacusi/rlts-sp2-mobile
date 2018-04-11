@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/timelog"
         android:icon="@drawable/ic_schedule_black_24dp"
@@ -14,4 +15,5 @@
         android:id="@+id/resources"
         android:icon="@drawable/ic_attachment_black_24dp"
         android:title="@string/resources"/>
+
 </menu>
