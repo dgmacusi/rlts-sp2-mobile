@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".TimelogFragment">
 
     <RadioGroup
@@ -17,27 +16,31 @@
             android:id="@+id/timelog_studentteacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/border"
-            android:text="@string/student_teacher" />
+            android:ems="10"
+            android:text="@string/student_teacher"
+            android:textColorLink="@color/colorPrimary" />
 
         <RadioButton
             android:id="@+id/timelog_classroom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/border"
+            android:ems="10"
             android:text="@string/classroom" />
 
         <RadioButton
             android:id="@+id/timelog_facility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
             android:background="@drawable/border"
+            android:ems="10"
             android:text="@string/facility" />
 
     </RadioGroup>
@@ -45,13 +48,14 @@
     <FrameLayout
         android:id="@+id/fragmentholder_radio"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/timelog_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
         android:text="@string/search" />
 
 </LinearLayout>

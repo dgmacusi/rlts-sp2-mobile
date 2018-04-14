@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center">
-
-    <TextView
-        android:id="@+id/resources_datetime_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:text="@string/date_and_time"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/resources_datetime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:ems="10"
-        android:text="Wednesday, April 11 2018 17:02"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/resources_title"
@@ -52,8 +30,7 @@
         android:ems="10"
         android:hint="@string/send_to" />
 
-    <EditText
-        android:id="@+id/resources_attachment"
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -62,7 +39,10 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/border"
         android:ems="10"
-        android:hint="@string/attachment" />
+        android:text="@string/attachment"
+        android:gravity="left"
+        android:textColor="@color/grey"
+        android:textAllCaps="false"/>
 
     <EditText
         android:id="@+id/resources_body"
@@ -80,6 +60,9 @@
         android:id="@+id/resources_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="right"
         android:text="@string/send" />
 
 </LinearLayout>
