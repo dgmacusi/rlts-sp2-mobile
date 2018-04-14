@@ -8,6 +8,16 @@
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log-in to RLTS"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"/>
+
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"

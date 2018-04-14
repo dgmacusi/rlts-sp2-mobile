@@ -37,4 +37,5 @@
     <string name="grade_level">Grade level</string>
     <string name="section">Section</string>
     <string name="room_name">Room name</string>
+    <string name="log_out">Log-out</string>
 </resources>

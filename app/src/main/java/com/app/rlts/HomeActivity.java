@@ -1,10 +1,13 @@
 package com.app.rlts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -13,6 +16,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        setSupportActionBar(myToolbar);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
@@ -21,8 +26,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         loadFragment(new TimelogFragment());
     }
 
-    private boolean loadFragment(Fragment fragment){
-        if(fragment != null){
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentholder_nav, fragment)
@@ -50,6 +55,27 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 return loadFragment(fragment);
             default:
                 return false;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_logout:
+                Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(i);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
     }
 }
