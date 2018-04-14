@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         if(fragment != null){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragmentholder, fragment)
+                    .replace(R.id.fragmentholder_nav, fragment)
                     .commit();
 
             return true;

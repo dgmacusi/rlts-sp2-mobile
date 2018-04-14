@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".TimelogFragment">
 
-    <TextView
+    <RadioGroup
+        android:id="@+id/radio_timelog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/timelog_studentteacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/border"
+            android:text="@string/student_teacher" />
+
+        <RadioButton
+            android:id="@+id/timelog_classroom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/border"
+            android:text="@string/classroom" />
+
+        <RadioButton
+            android:id="@+id/timelog_facility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/border"
+            android:text="@string/facility" />
+
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/fragmentholder_radio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/timelog_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Timelog"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        android:text="@string/search" />
 
-</RelativeLayout>
+</LinearLayout>
