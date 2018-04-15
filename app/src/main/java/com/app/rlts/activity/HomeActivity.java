@@ -1,4 +1,4 @@
-package com.app.rlts;
+package com.app.rlts.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.app.rlts.fragment.NotificationFragment;
+import com.app.rlts.R;
+import com.app.rlts.fragment.ResourcesFragment;
+import com.app.rlts.fragment.TimelogFragment;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 

@@ -1,4 +1,4 @@
-package com.app.rlts;
+package com.app.rlts.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
+
+import com.app.rlts.R;
+import com.app.rlts.fragment.ClassroomFragment;
+import com.app.rlts.fragment.FacilityFragment;
+import com.app.rlts.fragment.StudentTeacherFragment;
 
 public class TimelogFragment extends Fragment{
 

@@ -1,10 +1,11 @@
-package com.app.rlts;
+package com.app.rlts.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.app.rlts.R;
 import com.estimote.internal_plugins_api.cloud.CloudCredentials;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
