@@ -71,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.action_logout:
                 Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                 startActivity(i);
+                HomeActivity.this.finish();
                 return true;
 
             default:
