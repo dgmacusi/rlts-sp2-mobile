@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.app.rlts.R;
+import com.app.rlts.SessionManager;
 
 import org.json.JSONObject;
 
@@ -33,26 +34,24 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameField;
     private EditText passwordField;
 
+    SessionManager session;
+
+    private String username;
+    private String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        session = new SessionManager(getApplicationContext());
+
         usernameField = (EditText) findViewById(R.id.username);
         passwordField = (EditText) findViewById(R.id.password);
-        /*Button loginButton = (Button) findViewById(R.id.login);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(i);
-            }
-        });*/
     }
 
     // triggers when LOGIN button is clicked
-    public void checkLogin(View arg0) {
+    public void logIn(View arg0) {
 
         // get text from email and passord field
         final String email = usernameField.getText().toString();
@@ -82,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try{
-                url = new URL("http://192.168.0.13:3000/login/web");
+                url = new URL("http://192.168.0.101:3000/login/web");
             }catch(MalformedURLException e){
                 e.printStackTrace();
                 return "exception";
@@ -139,6 +138,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     JSONObject topLevel = new JSONObject(builder.toString());
                     JSONObject user = topLevel.getJSONObject("user");
+
+                    username = user.getString("username");
+                    type = user.getString("type");
+
                     String auth_status = String.valueOf(user.getBoolean("authenticated"));
 
                     return(auth_status);
@@ -163,6 +166,8 @@ public class LoginActivity extends AppCompatActivity {
 
             if(result.equalsIgnoreCase("true")){
 
+                session.loginSession(username, type);
+
                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(i);
                 LoginActivity.this.finish();
@@ -174,7 +179,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }else if(result.equalsIgnoreCase("exception")){
 
-                // if username and password does not match display a error message
                 Toast.makeText(LoginActivity.this, R.string.connection_problem, Toast.LENGTH_LONG).show();
             }
         }

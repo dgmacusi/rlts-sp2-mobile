@@ -10,18 +10,25 @@ import com.app.rlts.R;
 
 public class ImageActivity extends AppCompatActivity {
 
+    //SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
+        //session = new SessionManager(getApplicationContext());
+
         Button proceedButton = (Button) findViewById(R.id.proceed);
+
+        //session.checkLogin();
 
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ImageActivity.this, LoginActivity.class);
                 startActivity(i);
+                //ImageActivity.this.finish();
             }
         });
     }

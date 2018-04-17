@@ -1,6 +1,5 @@
 package com.app.rlts.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,22 +9,38 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.app.rlts.fragment.NotificationFragment;
 import com.app.rlts.R;
+import com.app.rlts.SessionManager;
+import com.app.rlts.fragment.NotificationFragment;
 import com.app.rlts.fragment.ResourcesFragment;
 import com.app.rlts.fragment.TimelogFragment;
 
+import java.util.HashMap;
+
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        session = new SessionManager(getApplicationContext());
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(myToolbar);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
+
+        session.checkLogin();
+
+        // get user data from session
+        HashMap<String, String> user = session.getUserDetails();
+
+        String username = user.get(SessionManager.KEY_NAME);
+        String type = user.get(SessionManager.KEY_TYPE);
 
         // loading default fragment
         loadFragment(new TimelogFragment());
@@ -74,8 +89,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
 
             case R.id.action_logout:
-                Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                startActivity(i);
+                session.logOut();
                 HomeActivity.this.finish();
                 return true;
 
