@@ -1,5 +1,6 @@
 package com.app.rlts.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,12 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.app.rlts.R;
-import com.app.rlts.fragment.ClassroomFragment;
-import com.app.rlts.fragment.FacilityFragment;
-import com.app.rlts.fragment.StudentTeacherFragment;
+import com.app.rlts.activity.TimelogActivity;
 
 public class TimelogFragment extends Fragment{
 
@@ -54,6 +54,16 @@ public class TimelogFragment extends Fragment{
 
         // loading default fragment
         loadFragment(new StudentTeacherFragment());
+
+        Button searchButton = (Button) getView().findViewById(R.id.timelog_search);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), TimelogActivity.class);
+                startActivity(i);
+            }
+        });
 
         return inflateView;
     }
