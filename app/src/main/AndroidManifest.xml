@@ -28,7 +28,12 @@
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/title_activity_home2" />
-        <activity android:name=".activity.TimelogActivity"></activity>
+        <activity
+            android:name=".activity.TimelogActivity"
+            android:label="RLTS"></activity>
+        <activity
+            android:name=".activity.NotificationActivity"
+            android:label="RLTS"></activity>
     </application>
 
 </manifest>

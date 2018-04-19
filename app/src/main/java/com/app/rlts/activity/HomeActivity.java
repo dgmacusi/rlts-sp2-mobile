@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.app.rlts.R;
 import com.app.rlts.SessionManager;
@@ -34,13 +35,15 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        session.checkLogin();
-
         // get user data from session
         HashMap<String, String> user = session.getUserDetails();
 
+        String auth_status = user.get(SessionManager.IS_LOGIN);
         String username = user.get(SessionManager.KEY_NAME);
         String type = user.get(SessionManager.KEY_TYPE);
+
+        TextView check2View = (TextView) findViewById(R.id.check2);
+        check2View.setText(user.get(SessionManager.KEY_TYPE));
 
         // loading default fragment
         loadFragment(new TimelogFragment());
