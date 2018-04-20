@@ -1,4 +1,4 @@
-package com.app.rlts;
+package com.app.rlts.session;
 
 import android.content.Context;
 import android.content.Intent;

@@ -55,7 +55,7 @@ public class TimelogFragment extends Fragment{
         // loading default fragment
         loadFragment(new StudentTeacherFragment());
 
-        Button searchButton = (Button) getView().findViewById(R.id.timelog_search);
+        Button searchButton = (Button) inflateView.findViewById(R.id.timelog_search);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override

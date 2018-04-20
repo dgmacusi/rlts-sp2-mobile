@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.app.rlts.R;
-import com.app.rlts.SessionManager;
+import com.app.rlts.session.SessionManager;
 
 public class TimelogActivity extends AppCompatActivity {
 

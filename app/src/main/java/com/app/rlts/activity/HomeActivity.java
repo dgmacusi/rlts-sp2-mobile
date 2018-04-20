@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.app.rlts.R;
-import com.app.rlts.SessionManager;
+import com.app.rlts.session.SessionManager;
 import com.app.rlts.fragment.NotificationFragment;
 import com.app.rlts.fragment.ResourcesFragment;
 import com.app.rlts.fragment.TimelogFragment;

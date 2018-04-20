@@ -40,4 +40,5 @@
     <string name="log_out">Log-out</string>
     <string name="invalid_email_password">Invalid email or password</string>
     <string name="connection_problem">Something went wrong. Connection problem.</string>
+    <string name="back">Back</string>
 </resources>
