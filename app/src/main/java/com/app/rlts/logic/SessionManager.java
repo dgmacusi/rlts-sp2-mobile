@@ -1,4 +1,4 @@
-package com.app.rlts.session;
+package com.app.rlts.logic;
 
 import android.content.Context;
 import android.content.Intent;
