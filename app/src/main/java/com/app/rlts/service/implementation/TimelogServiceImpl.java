@@ -16,6 +16,10 @@ import java.net.URL;
 
 public class TimelogServiceImpl implements TimelogService {
 
+    public TimelogServiceImpl() {
+
+    }
+
     @Override
     public void addTimelogToWeb(Timelog timelog) {
         new AsyncAddTimelog(timelog).execute("timelog");
@@ -39,7 +43,7 @@ public class TimelogServiceImpl implements TimelogService {
         protected String doInBackground(String... params) {
 
             try{
-                url = new URL("http://192.168.0.103:3000/addTimelog/web"); //change this
+                url = new URL("http://192.168.0.103:3000/addTimelog/web");
             }catch(MalformedURLException e){
                 e.printStackTrace();
                 return "exception";

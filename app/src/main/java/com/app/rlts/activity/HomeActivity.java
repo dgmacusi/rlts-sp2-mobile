@@ -16,11 +16,14 @@ import android.widget.TextView;
 
 import com.app.rlts.R;
 import com.app.rlts.entity.Beacon;
+import com.app.rlts.entity.Timelog;
 import com.app.rlts.fragment.NotificationFragment;
 import com.app.rlts.fragment.ResourcesFragment;
 import com.app.rlts.fragment.TimelogFragment;
+import com.app.rlts.interfaces.AsyncResponse;
 import com.app.rlts.logic.SessionManager;
-import com.app.rlts.service.implementation.BeaconServiceImpl;
+import com.app.rlts.service.implementation.TimelogServiceImpl;
+import com.app.rlts.task.AsyncGetBeaconsTask;
 import com.estimote.internal_plugins_api.cloud.CloudCredentials;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
@@ -47,10 +50,11 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AsyncResponse {
 
     SessionManager session;
     private ProximityObserver proximityObserver;
+    ArrayList<Beacon> beaconArray = new ArrayList<Beacon>();
 
     String username;
 
@@ -58,6 +62,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     SimpleDateFormat dateFormat;
     SimpleDateFormat timeFormat;
 
+    TextView check2View;
     TextView beaconCheckView;
     TextView dateCheckView;
     TextView timeCheckView;
@@ -82,9 +87,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         username = user.get(SessionManager.KEY_NAME);
         String type = user.get(SessionManager.KEY_TYPE);
 
-        TextView check2View = (TextView) findViewById(R.id.check2);
-        check2View.setText(user.get(SessionManager.KEY_TYPE));
-
+        check2View = (TextView) findViewById(R.id.check2);
         beaconCheckView = (TextView) findViewById(R.id.check_beacon);
         dateCheckView = (TextView) findViewById(R.id.check_date);
         timeCheckView = (TextView) findViewById(R.id.check_time);
@@ -92,16 +95,27 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-        ArrayList<Beacon> beaconArray;
-
-        BeaconServiceImpl beaconServiceImpl = new BeaconServiceImpl();
-        beaconArray = beaconServiceImpl.getAllBeacons();
-
         // loading default fragment
         loadFragment(new TimelogFragment());
 
+        new AsyncGetBeaconsTask(this).execute();
+
         createProximityZone();
         startProximityObserver();
+    }
+
+    @Override
+    public void retrieveBeacons(ArrayList<Beacon> bList){
+
+        try{
+            for (int i = 0; i < bList.size(); i++) {
+                this.beaconArray.add(bList.get(i));
+            }
+
+            this.check2View.setText(String.valueOf(beaconArray.size()));
+        }catch (Exception e){
+            this.check2View.setText(e.getMessage());
+        }
     }
 
     private void createProximityZone(){
@@ -133,14 +147,22 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     @Override
                     public Unit invoke(ProximityAttachment attachment) {
 
-                        beaconCheckView.setText(R.string.welcome);
-
                         calendar = Calendar.getInstance();
                         String date = dateFormat.format(calendar.getTime());
                         String time = timeFormat.format(calendar.getTime());
 
+                        TimelogServiceImpl timelogServiceImpl = new TimelogServiceImpl();
+
+                        for (int i = 0; i < beaconArray.size(); i++) {
+                            if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
+                                Timelog timelog = new Timelog(date, time, "enter", beaconArray.get(i).getLocationName(), username);
+                                //timelogServiceImpl.addTimelogToWeb(timelog);
+                            }
+                        }
+
                         new HomeActivity.AsyncData().execute(date,time,"enter","location",username); // date time entrytype locationname username
 
+                        beaconCheckView.setText(R.string.welcome);
                         timeCheckView.setText(time);
                         dateCheckView.setText(date);
 
@@ -153,14 +175,22 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     @Override
                     public Unit invoke(ProximityAttachment attachment) {
 
-                        beaconCheckView.setText(R.string.bye);
-
                         calendar = Calendar.getInstance();
                         String date = dateFormat.format(calendar.getTime());
                         String time = timeFormat.format(calendar.getTime());
 
+                        TimelogServiceImpl timelogServiceImpl = new TimelogServiceImpl();
+
+                        for (int i = 0; i < beaconArray.size(); i++) {
+                            if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
+                                Timelog timelog = new Timelog(date, time, "enter", beaconArray.get(i).getLocationName(), username);
+                                //timelogServiceImpl.addTimelogToWeb(timelog);
+                            }
+                        }
+
                         new HomeActivity.AsyncData().execute(date,time,"exit","location",username);
 
+                        beaconCheckView.setText(R.string.bye);
                         timeCheckView.setText(time);
                         dateCheckView.setText(date);
 
