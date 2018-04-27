@@ -11,9 +11,16 @@ import android.view.ViewGroup;
 import com.app.rlts.R;
 
 public class ResourcesFragment extends Fragment {
+
+    View inflateView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_resources, null);
+
+        inflateView = inflater.inflate(R.layout.fragment_resources, container, false);
+
+        return inflateView;
+
     }
 }

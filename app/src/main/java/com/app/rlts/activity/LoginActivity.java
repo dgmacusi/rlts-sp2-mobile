@@ -8,10 +8,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.rlts.R;
-import com.app.rlts.SessionManager;
+import com.app.rlts.logic.SessionManager;
 
 import org.json.JSONObject;
 
@@ -25,6 +26,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,9 +37,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordField;
 
     SessionManager session;
+    HashMap<String, String> user;
 
     private String username;
     private String type;
+
+    TextView checkView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,23 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameField = (EditText) findViewById(R.id.username);
         passwordField = (EditText) findViewById(R.id.password);
+
+        checkView = (TextView) findViewById(R.id.check);
+
+        user = session.getUserDetails();
+
+        checkView.setText(user.get(SessionManager.IS_LOGIN));
+
+        session.checkLogin();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        checkView.setText(user.get(SessionManager.IS_LOGIN));
+
+        session.checkLogin();
     }
 
     // triggers when LOGIN button is clicked
@@ -81,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try{
-                url = new URL("http://192.168.0.101:3000/login/web");
+                url = new URL("http://192.168.0.107:3000/login/web");
             }catch(MalformedURLException e){
                 e.printStackTrace();
                 return "exception";
@@ -141,7 +163,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     username = user.getString("username");
                     type = user.getString("type");
-
                     String auth_status = String.valueOf(user.getBoolean("authenticated"));
 
                     return(auth_status);

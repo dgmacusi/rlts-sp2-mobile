@@ -11,9 +11,15 @@ import android.view.ViewGroup;
 import com.app.rlts.R;
 
 public class NotificationFragment extends Fragment {
+
+    View inflateView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notification, null);
+
+        inflateView = inflater.inflate(R.layout.fragment_notification, container, false);
+
+        return inflateView;
     }
 }

@@ -9,6 +9,12 @@
     tools:context=".activity.LoginActivity">
 
     <TextView
+        android:id="@+id/check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Log-in to RLTS"
