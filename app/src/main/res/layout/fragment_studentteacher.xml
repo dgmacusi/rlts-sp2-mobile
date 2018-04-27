@@ -8,13 +8,14 @@
         android:id="@+id/studentteacher_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:hint="@string/dd_mm_yyyy"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/border"
-        android:ems="10"
-        android:hint="@string/dd_mm_yyyy" />
+        android:background="@drawable/border"/>
 
     <EditText
         android:id="@+id/studentteacher_number"
@@ -27,5 +28,18 @@
         android:background="@drawable/border"
         android:ems="10"
         android:hint="@string/student_employee_number" />
+
+    <Button
+        android:id="@+id/studentteacher_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="@string/search" />
+
+    <TextView
+        android:id="@+id/checkview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
