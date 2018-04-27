@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timelog_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.TimelogActivity"
-    android:id="@+id/timelog_layout">
+    tools:context=".activity.TimelogActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/home_toolbar"
@@ -49,17 +49,53 @@
         android:textColor="@color/black"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/timelog_header"
+    <TableLayout
+        android:id="@+id/timelog_table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/border"
-        android:text="@string/header"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
+        android:background="@drawable/border">
+
+        <TableRow
+            android:id="@+id/timelog_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/header_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/time"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/header_entrytype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/entry_type"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text=""
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>

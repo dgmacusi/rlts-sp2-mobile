@@ -46,4 +46,6 @@
     <string name="location">Location</string>
     <string name="user_name">User name</string>
     <string name="header">Time\t\t\t\t\t\t\t\t\t\tEntry type\t\t\t\t\t\t\t\t\t\t</string>
+    <string name="time">Time</string>
+    <string name="entry_type">Entry Type</string>
 </resources>
