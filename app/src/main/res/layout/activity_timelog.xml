@@ -27,16 +27,17 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <TextView
+        android:id="@+id/timelog_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
         android:gravity="center"
-        android:text="Person/Classroom/Facility name"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/notif_date"
+        android:id="@+id/timelog_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
@@ -44,22 +45,21 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/border"
-        android:text="Date here date here"
+        android:text=""
         android:textColor="@color/black"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/notif_show_body"
+        android:id="@+id/timelog_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/border"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="Timelogs here timelogs here"
-        android:textColor="@color/black" />
+        android:text="@string/header"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
 
 </LinearLayout>

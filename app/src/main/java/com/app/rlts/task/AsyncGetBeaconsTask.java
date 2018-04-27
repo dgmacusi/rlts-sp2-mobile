@@ -31,7 +31,7 @@ public class AsyncGetBeaconsTask extends AsyncTask<String, String, String> {
         URL url = null;
 
         try{
-            url = new URL("http://192.168.0.103:3000/getAllBeacons/web");
+            url = new URL("http://192.168.0.107:3000/getAllBeacons/web");
         }catch(MalformedURLException e){
             e.printStackTrace();
             return e.getMessage();
@@ -44,15 +44,6 @@ public class AsyncGetBeaconsTask extends AsyncTask<String, String, String> {
             conn.setConnectTimeout(LoginActivity.CONNECTION_TIMEOUT);
             conn.setRequestMethod("GET");
 
-            //conn.setDoInput(true);
-            //conn.setDoOutput(true);
-
-            //OutputStream output = conn.getOutputStream();
-            //BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
-
-            //writer.flush();
-            //writer.close();
-            //output.close();
             conn.connect();
 
         }catch(Exception e1){

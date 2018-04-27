@@ -18,6 +18,7 @@ public class TimelogFragment extends Fragment{
 
     View inflateView;
     RadioGroup radioStatus;
+    Button searchButton;
 
     Fragment fragment = null;
 
@@ -29,6 +30,8 @@ public class TimelogFragment extends Fragment{
 
         radioStatus = (RadioGroup) inflateView.findViewById(R.id.radio_timelog);
 
+        searchButton = (Button) inflateView.findViewById(R.id.timelog_search);
+
         radioStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
@@ -38,14 +41,43 @@ public class TimelogFragment extends Fragment{
                     case R.id.timelog_studentteacher:
                         fragment = new StudentTeacherFragment();
                         loadFragment(fragment);
+
+                        searchButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final Intent i = new Intent(getActivity(), TimelogActivity.class);
+                                i.putExtra("fragment", "studentteacher");
+                                startActivity(i);
+                            }
+                        });
                         break;
+
                     case R.id.timelog_classroom:
                         fragment = new ClassroomFragment();
                         loadFragment(fragment);
+
+                        searchButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final Intent i = new Intent(getActivity(), TimelogActivity.class);
+                                i.putExtra("fragment", "classroom");
+                                startActivity(i);
+                            }
+                        });
                         break;
+
                     case R.id.timelog_facility:
                         fragment = new FacilityFragment();
                         loadFragment(fragment);
+
+                        searchButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final Intent i = new Intent(getActivity(), TimelogActivity.class);
+                                i.putExtra("fragment", "facility");
+                                startActivity(i);
+                            }
+                        });
                         break;
                 }
 
@@ -54,16 +86,6 @@ public class TimelogFragment extends Fragment{
 
         // loading default fragment
         loadFragment(new StudentTeacherFragment());
-
-        Button searchButton = (Button) inflateView.findViewById(R.id.timelog_search);
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), TimelogActivity.class);
-                startActivity(i);
-            }
-        });
 
         return inflateView;
     }

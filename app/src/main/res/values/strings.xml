@@ -41,4 +41,9 @@
     <string name="invalid_email_password">Invalid email or password</string>
     <string name="connection_problem">Something went wrong. Connection problem.</string>
     <string name="back">Back</string>
+    <string name="dd_mm_yyyy">dd-mm-yyyy</string>
+    <string name="tab">\t\t\t\t\t\t\t\t\t\t</string>
+    <string name="location">Location</string>
+    <string name="user_name">User name</string>
+    <string name="header">Time\t\t\t\t\t\t\t\t\t\tEntry type\t\t\t\t\t\t\t\t\t\t</string>
 </resources>

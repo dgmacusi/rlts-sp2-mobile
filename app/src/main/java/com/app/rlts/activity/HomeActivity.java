@@ -1,8 +1,6 @@
 package com.app.rlts.activity;
 
 import android.app.Notification;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -22,7 +20,7 @@ import com.app.rlts.fragment.ResourcesFragment;
 import com.app.rlts.fragment.TimelogFragment;
 import com.app.rlts.interfaces.AsyncResponse;
 import com.app.rlts.logic.SessionManager;
-import com.app.rlts.service.implementation.TimelogServiceImpl;
+import com.app.rlts.task.AsyncAddTimelogTask;
 import com.app.rlts.task.AsyncGetBeaconsTask;
 import com.estimote.internal_plugins_api.cloud.CloudCredentials;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
@@ -33,13 +31,6 @@ import com.estimote.proximity_sdk.proximity.ProximityObserver;
 import com.estimote.proximity_sdk.proximity.ProximityObserverBuilder;
 import com.estimote.proximity_sdk.proximity.ProximityZone;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         dateCheckView = (TextView) findViewById(R.id.check_date);
         timeCheckView = (TextView) findViewById(R.id.check_time);
 
-        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         timeFormat = new SimpleDateFormat("HH:mm:ss");
 
         // loading default fragment
@@ -129,8 +120,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         .withOnErrorAction(new Function1<Throwable, Unit>() {
                             @Override
                             public Unit invoke(Throwable throwable) {
-                                //tv.setText(R.string.proximity_observer_error);
-                                //Toast.makeText(MainActivity.this, R.string.proximity_observer_error, Toast.LENGTH_LONG);
                                 Log.e("app", "proximity observer error" + throwable);
                                 return null;
                             }
@@ -151,22 +140,18 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         String date = dateFormat.format(calendar.getTime());
                         String time = timeFormat.format(calendar.getTime());
 
-                        TimelogServiceImpl timelogServiceImpl = new TimelogServiceImpl();
-
                         for (int i = 0; i < beaconArray.size(); i++) {
                             if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
                                 Timelog timelog = new Timelog(date, time, "enter", beaconArray.get(i).getLocationName(), username);
-                                //timelogServiceImpl.addTimelogToWeb(timelog);
+                                new AsyncAddTimelogTask(timelog).execute();
+                                timeCheckView.setText("enter");
+                                String name = beaconArray.get(i).getBeaconName();
+                                dateCheckView.setText(name);
+
                             }
                         }
-
-                        new HomeActivity.AsyncData().execute(date,time,"enter","location",username); // date time entrytype locationname username
-
                         beaconCheckView.setText(R.string.welcome);
-                        timeCheckView.setText(time);
-                        dateCheckView.setText(date);
 
-                        //Toast.makeText(MainActivity.this, getString(R.string.welcome), Toast.LENGTH_LONG);
                         Log.d("app", "Welcome!");
                         return null;
                     }
@@ -179,22 +164,17 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         String date = dateFormat.format(calendar.getTime());
                         String time = timeFormat.format(calendar.getTime());
 
-                        TimelogServiceImpl timelogServiceImpl = new TimelogServiceImpl();
-
                         for (int i = 0; i < beaconArray.size(); i++) {
                             if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
-                                Timelog timelog = new Timelog(date, time, "enter", beaconArray.get(i).getLocationName(), username);
-                                //timelogServiceImpl.addTimelogToWeb(timelog);
+                                Timelog timelog = new Timelog(date, time, "exit", beaconArray.get(i).getLocationName(), username);
+                                new AsyncAddTimelogTask(timelog).execute();
+                                timeCheckView.setText("exit");
+                                String name = beaconArray.get(i).getBeaconName();
+                                dateCheckView.setText(name);
                             }
                         }
-
-                        new HomeActivity.AsyncData().execute(date,time,"exit","location",username);
-
                         beaconCheckView.setText(R.string.bye);
-                        timeCheckView.setText(time);
-                        dateCheckView.setText(date);
 
-                        //Toast.makeText(MainActivity.this, R.string.bye, Toast.LENGTH_LONG);
                         Log.d("app", "Bye bye!");
                         return null;
                     }
@@ -229,8 +209,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         // onRequirementsFulfilled
                         new Function0<Unit>() {
                             @Override public Unit invoke() {
-                                //tv.setText(R.string.reqs_fulfilled);
-                                //Toast.makeText(MainActivity.this, R.string.reqs_fulfilled, Toast.LENGTH_LONG);
                                 Log.d("app", "requirements fulfilled");
                                 proximityObserver.start();
                                 return null;
@@ -239,8 +217,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         // onRequirementsMissing
                         new Function1<List<? extends Requirement>, Unit>() {
                             @Override public Unit invoke(List<? extends Requirement> requirements) {
-                                //tv.setText(R.string.reqs_missing);
-                                //Toast.makeText(MainActivity.this, R.string.reqs_missing, Toast.LENGTH_LONG);
                                 Log.e("app", "requirements missing: " + requirements);
                                 return null;
                             }
@@ -248,8 +224,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         // onError
                         new Function1<Throwable, Unit>() {
                             @Override public Unit invoke(Throwable throwable) {
-                                //tv.setText(R.string.reqs_error);
-                                //Toast.makeText(MainActivity.this, R.string.reqs_error, Toast.LENGTH_LONG);
                                 Log.e("app", "requirements error: " + throwable);
                                 return null;
                             }
@@ -306,54 +280,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             default:
                 return super.onOptionsItemSelected(item);
 
-        }
-    }
-
-    private class AsyncData extends AsyncTask<String, String, String> {
-
-        HttpURLConnection conn;
-        URL url = null;
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            try{
-                url = new URL("http://192.168.0.103:3000/login/web"); //change this
-            }catch(MalformedURLException e){
-                e.printStackTrace();
-                return "exception";
-            }
-
-            try{
-                conn = (HttpURLConnection)url.openConnection();
-                //conn.setReadTimeout(READ_TIMEOUT);
-                //conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("date", params[0])
-                        .appendQueryParameter("time", params[1]);
-                String query = builder.build().getEncodedQuery();
-
-                // open connection for sending data
-                OutputStream output = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
-
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                output.close();
-                conn.connect();
-
-            }catch(IOException e1){
-                e1.printStackTrace();
-                return "exception";
-            }
-
-            return null;
         }
     }
 }
