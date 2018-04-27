@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.app.rlts.R;
@@ -56,32 +58,50 @@ public class TimelogActivity extends AppCompatActivity {
         TextView date = (TextView) findViewById(R.id.timelog_date);
         date.setText(timelogs.get(0).getDate());
 
-        TextView header = (TextView) findViewById(R.id.timelog_header);
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.timelog_table);
+
+        TextView header = (TextView) findViewById(R.id.header);
         if(result.equalsIgnoreCase("studentteacher")){
             header.setText(new StringBuilder().append(header.getText()).append(getString(R.string.location)).toString());
         }else{
             header.setText(new StringBuilder().append(header.getText()).append(getString(R.string.user_name)).toString());
         }
 
+        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        layoutParams.setMargins(50, 1, 50, 1);
+
         for (int i = 0; i < timelogs.size(); i++) {
 
-            TextView tv = new TextView(this);
-            tv.setText(new StringBuilder().append(timelogs.get(i).getTime()).append(getString(R.string.tab)).append(timelogs.get(i).getEntryType()).toString());
-            tv.setBackgroundResource(R.drawable.border);
-            tv.setTextColor(getResources().getColor(R.color.black));
+            TableRow row = new TableRow(this);
+            row.setLayoutParams(layoutParams);
+            row.setBackgroundResource(R.drawable.border);
 
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(50, 1, 50, 1);
+            TextView time = new TextView(this);
+            time.setText(timelogs.get(i).getTime());
+            time.setTextColor(getResources().getColor(R.color.black));
+            time.setLayoutParams(layoutParams);
+
+            TextView entryType = new TextView(this);
+            entryType.setText(timelogs.get(i).getTime());
+            entryType.setTextColor(getResources().getColor(R.color.black));
+            entryType.setLayoutParams(layoutParams);
+
+            TextView third = new TextView(this);
+            third.setText(timelogs.get(i).getTime());
+            third.setTextColor(getResources().getColor(R.color.black));
+            third.setLayoutParams(layoutParams);
 
             if(result.equalsIgnoreCase("studentteacher")){
-                tv.setText(new StringBuilder().append(tv.getText()).append(getString(R.string.tab)).append(timelogs.get(i).getLocationName()).toString());
+                third.setText(timelogs.get(i).getLocationName());
             }else{
-                tv.setText(new StringBuilder().append(tv.getText()).append(getString(R.string.tab)).append(timelogs.get(i).getUsername()).toString());
+                third.setText(timelogs.get(i).getUsername());
             }
 
-            tv.setLayoutParams(layoutParams);
-            layout.addView(tv);
+            row.addView(time);
+            row.addView(entryType);
+            row.addView(third);
+            tableLayout.addView(row);
         }
     }
 
