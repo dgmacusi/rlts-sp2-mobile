@@ -1,6 +1,8 @@
 package com.app.rlts.entity;
 
-public class Timelog {
+import java.io.Serializable;
+
+public class Timelog implements Serializable{
 
     private String date;
     private String time;

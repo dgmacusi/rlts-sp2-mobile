@@ -129,7 +129,7 @@ public class AsyncGetStudentTeacherTimelogTask extends AsyncTask<String, String,
         if(studentTeacherTimelog.size() > 0){
             delegate.retrieveTimelog(studentTeacherTimelog);
         }else{
-            studentTeacherTimelog.add(new Timelog(s, "test time", "test entryType", "test locationName", "test username"));
+            studentTeacherTimelog.add(new Timelog(" ", " ", " ", " ", "No timelogs found"));
             delegate.retrieveTimelog(studentTeacherTimelog);
         }
     }
