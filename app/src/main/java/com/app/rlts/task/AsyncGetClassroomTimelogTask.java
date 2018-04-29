@@ -20,12 +20,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class AsyncGetStudentTeacherTimelogTask extends AsyncTask<String, String, String> {
+public class AsyncGetClassroomTimelogTask extends AsyncTask<String, String,String> {
 
-    ArrayList<Timelog> studentTeacherTimelog = new ArrayList<>();
+    ArrayList<Timelog> classroomTimelog = new ArrayList<>();
     public AsyncTimelogResponse delegate;
 
-    public AsyncGetStudentTeacherTimelogTask(AsyncTimelogResponse delegate){
+    public AsyncGetClassroomTimelogTask(AsyncTimelogResponse delegate){
         this.delegate = delegate;
     }
 
@@ -41,7 +41,7 @@ public class AsyncGetStudentTeacherTimelogTask extends AsyncTask<String, String,
         URL url = null;
 
         try {
-            url = new URL("http://192.168.0.104:3000/getStudentTeacherTimelog/web");
+            url = new URL("http://192.168.0.104:3000/getClassroomTimelog/web");
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();
@@ -59,7 +59,8 @@ public class AsyncGetStudentTeacherTimelogTask extends AsyncTask<String, String,
 
             Uri.Builder builder = new Uri.Builder()
                     .appendQueryParameter("date", params[0])
-                    .appendQueryParameter("studentTeacherNo", params[1]);
+                    .appendQueryParameter("gradeLevel", params[1])
+                    .appendQueryParameter("section", params[2]);
             String query = builder.build().getEncodedQuery();
 
             OutputStream ouput = conn.getOutputStream();
@@ -105,7 +106,7 @@ public class AsyncGetStudentTeacherTimelogTask extends AsyncTask<String, String,
                     String fullName = t.getString("fullName");
 
                     Timelog timelog = new Timelog(date, time, entryType, locationName, fullName);
-                    studentTeacherTimelog.add(timelog);
+                    classroomTimelog.add(timelog);
                 }
 
                 return "Retrieving success";
@@ -125,11 +126,11 @@ public class AsyncGetStudentTeacherTimelogTask extends AsyncTask<String, String,
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        if(studentTeacherTimelog.size() > 0){
-            delegate.retrieveTimelog(studentTeacherTimelog);
+        if(classroomTimelog.size() > 0){
+            delegate.retrieveTimelog(classroomTimelog);
         }else{
-            studentTeacherTimelog.add(new Timelog(" ", " ", " ", " ", "No timelogs found."));
-            delegate.retrieveTimelog(studentTeacherTimelog);
+            classroomTimelog.add(new Timelog(s, " "," ", "No timelogs found.", " "));
+            delegate.retrieveTimelog(classroomTimelog);
         }
     }
 }

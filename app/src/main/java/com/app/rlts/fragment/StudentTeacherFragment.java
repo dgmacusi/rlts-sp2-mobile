@@ -44,9 +44,6 @@ public class StudentTeacherFragment extends Fragment implements AsyncTimelogResp
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                final Intent i = new Intent(getActivity(), TimelogActivity.class);
-//                i.putExtra("fragment", "studentteacher");
-//                startActivity(i);
 
                 String date = studentteacher_date.getText().toString();
                 String number = studentteacher_no.getText().toString();

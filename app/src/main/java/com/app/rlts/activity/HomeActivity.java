@@ -99,6 +99,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public void retrieveBeacons(ArrayList<Beacon> bList){
 
         try{
+            beaconArray.clear();
             for (int i = 0; i < bList.size(); i++) {
                 this.beaconArray.add(bList.get(i));
             }

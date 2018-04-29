@@ -48,4 +48,5 @@
     <string name="header">Time\t\t\t\t\t\t\t\t\t\tEntry type\t\t\t\t\t\t\t\t\t\t</string>
     <string name="time">Time</string>
     <string name="entry_type">Entry type</string>
+    <string name="name">Name</string>
 </resources>

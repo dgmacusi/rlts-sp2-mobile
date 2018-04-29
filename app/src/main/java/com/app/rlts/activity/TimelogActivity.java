@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class TimelogActivity extends AppCompatActivity {
 
     SessionManager session;
+    ArrayList<Timelog> timelogArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +37,7 @@ public class TimelogActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String result = intent.getStringExtra("fragment");
         Bundle bundle = intent.getExtras();
-        ArrayList<Timelog> timelogArray = (ArrayList<Timelog>) bundle.getSerializable("timelogArray");
-
-
-        /*ArrayList<Timelog> timelogArray = new ArrayList<Timelog>();
-
-        Timelog one = new Timelog("24-04-2018", "06:16:54", "enter", "library", "dmacusi");
-        Timelog two = new Timelog("24-04-2018", "06:25:32", "exit", "library", "dmacusi");
-        Timelog three = new Timelog("24-04-2018", "06:35:38", "enter", "canteen", "dmacusi");
-        Timelog four = new Timelog("24-04-2018", "06:40:13", "exit", "canteen", "dmacusi");
-
-        timelogArray.add(one);
-        timelogArray.add(two);
-        timelogArray.add(three);
-        timelogArray.add(four);*/
+        timelogArray = (ArrayList<Timelog>) bundle.getSerializable("timelogArray");
 
         TextView name = (TextView) findViewById(R.id.timelog_name);
         if(result.equalsIgnoreCase("studentteacher")){
@@ -61,13 +49,13 @@ public class TimelogActivity extends AppCompatActivity {
         TextView date = (TextView) findViewById(R.id.timelog_date);
         date.setText(timelogArray.get(0).getDate());
 
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.timelog_table);
+        TableLayout timelogLayout = (TableLayout) findViewById(R.id.timelog_table);
 
         TextView header = (TextView) findViewById(R.id.header);
         if(result.equalsIgnoreCase("studentteacher")){
             header.setText(new StringBuilder().append(header.getText()).append(getString(R.string.location)).toString());
         }else{
-            header.setText(new StringBuilder().append(header.getText()).append(getString(R.string.user_name)).toString());
+            header.setText(new StringBuilder().append(header.getText()).append(getString(R.string.name)).toString());
         }
 
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
@@ -103,7 +91,7 @@ public class TimelogActivity extends AppCompatActivity {
             row.addView(time);
             row.addView(entryType);
             row.addView(third);
-            tableLayout.addView(row);
+            timelogLayout.addView(row);
         }
     }
 

@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try{
-                url = new URL("http://192.168.0.107:3000/login/web");
+                url = new URL("http://192.168.0.104:3000/login/web");
             }catch(MalformedURLException e){
                 e.printStackTrace();
                 return "exception";
