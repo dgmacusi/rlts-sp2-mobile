@@ -49,4 +49,6 @@
     <string name="time">Time</string>
     <string name="entry_type">Entry type</string>
     <string name="name">Name</string>
+    <string name="entry_type_enter">Entry type: Enter</string>
+    <string name="entry_type_exit">Enter type: Exit</string>
 </resources>

@@ -128,7 +128,7 @@ public class AsyncGetFacilityTimelogTask extends AsyncTask<String, String, Strin
         if(facilityTimelog.size() > 0){
             delegate.retrieveTimelog(facilityTimelog);
         }else{
-            facilityTimelog.add(new Timelog(s, " "," ", "No timelogs found.", " "));
+            facilityTimelog.add(new Timelog(" ", " "," ", "No timelogs found.", " "));
             delegate.retrieveTimelog(facilityTimelog);
         }
     }
