@@ -16,7 +16,7 @@
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/location_timelog_date"
+        android:id="@+id/exit_timelog_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"

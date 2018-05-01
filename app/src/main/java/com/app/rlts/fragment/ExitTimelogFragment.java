@@ -5,8 +5,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.app.rlts.R;
+import com.app.rlts.activity.LocationTimelogActivity;
 import com.app.rlts.entity.Timelog;
 
 import java.util.ArrayList;
@@ -22,17 +26,20 @@ public class ExitTimelogFragment extends android.support.v4.app.Fragment {
 
         inflateView = inflater.inflate(R.layout.fragment_exit_timelog, container, false);
 
+        LocationTimelogActivity activity = (LocationTimelogActivity) getActivity();
+        timelogArray = activity.getTimelogData();
+
 //        Bundle bundle = getArguments();
 //        timelogArray = (ArrayList<Timelog>) bundle.getSerializable("timelogArray");
 //
-//        TableRow.LayoutParams rowLayoutParams = new TableRow.LayoutParams(
-//                TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
-//        rowLayoutParams.setMargins(50, 1, 50, 1);
+        TableRow.LayoutParams rowLayoutParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        rowLayoutParams.setMargins(50, 1, 50, 1);
 
-        /*TextView name_header = (TextView) inflateView.findViewById(R.id.enter_timelog_name);
-        name_header.setText(timelogArray.get(0).getLocationName());
+        TextView exit_name_header = (TextView) inflateView.findViewById(R.id.exit_timelog_name);
+        exit_name_header.setText(timelogArray.get(0).getLocationName());
 
-        TextView date = (TextView) inflateView.findViewById(R.id.location_timelog_date);
+        TextView date = (TextView) inflateView.findViewById(R.id.exit_timelog_date);
         date.setText(timelogArray.get(0).getDate());
 
         TableLayout exit_table = (TableLayout) inflateView.findViewById(R.id.exit_timelog_table);
@@ -59,7 +66,7 @@ public class ExitTimelogFragment extends android.support.v4.app.Fragment {
                 row.addView(name);
                 exit_table.addView(row);
             }
-        }*/
+        }
 
         return inflateView;
 

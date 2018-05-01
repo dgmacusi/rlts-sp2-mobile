@@ -37,6 +37,10 @@ public class LocationTimelogActivity extends AppCompatActivity {
         timelogArray = (ArrayList<Timelog>) bundle.getSerializable("timelogArray");
     }
 
+    public ArrayList<Timelog> getTimelogData(){
+        return timelogArray;
+    }
+
     public void createTabLayout() {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
