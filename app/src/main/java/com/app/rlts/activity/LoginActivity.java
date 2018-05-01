@@ -1,10 +1,17 @@
 package com.app.rlts.activity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -12,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.rlts.R;
-import com.app.rlts.logic.SessionManager;
+import com.app.rlts.manager.SessionManager;
 
 import org.json.JSONObject;
 
@@ -73,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // triggers when LOGIN button is clicked
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void logIn(View arg0) {
 
         // get text from email and passord field
@@ -81,6 +89,34 @@ public class LoginActivity extends AppCompatActivity {
 
         // initialize  AsyncLogin() class with email and password
         new AsyncLogin().execute(email,password);
+
+        createNotif("Notification", "Hello from the other side.");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void createNotif(String title, String text){
+
+        // set an id for the notification so it can be updated
+        int notif_id = 1;
+
+        String channel_id = "channel_id";
+        CharSequence name = getString(R.string.channel_name);
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        NotificationChannel channel = new NotificationChannel(channel_id, name, importance);
+
+        // create a notification and set the notification channel
+        Notification notification = new NotificationCompat.Builder(this, channel_id)
+                .setSmallIcon(R.drawable.ic_schedule_black_24dp)
+                .setContentTitle(title)
+                .setContentText(text)
+                .build();
+
+        // get an instance of notification manager service
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.createNotificationChannel(channel);
+
+        manager.notify(notif_id, notification);
     }
 
     private class AsyncLogin extends AsyncTask<String, String, String> {

@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.app.rlts.R;
-import com.app.rlts.logic.SessionManager;
+import com.app.rlts.manager.SessionManager;
 
 public class NotificationActivity extends AppCompatActivity {
 

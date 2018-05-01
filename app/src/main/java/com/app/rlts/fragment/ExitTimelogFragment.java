@@ -29,9 +29,6 @@ public class ExitTimelogFragment extends android.support.v4.app.Fragment {
         LocationTimelogActivity activity = (LocationTimelogActivity) getActivity();
         timelogArray = activity.getTimelogData();
 
-//        Bundle bundle = getArguments();
-//        timelogArray = (ArrayList<Timelog>) bundle.getSerializable("timelogArray");
-//
         TableRow.LayoutParams rowLayoutParams = new TableRow.LayoutParams(
                 TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
         rowLayoutParams.setMargins(50, 1, 50, 1);

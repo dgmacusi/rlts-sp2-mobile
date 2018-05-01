@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.app.rlts.R;
 import com.app.rlts.entity.Timelog;
-import com.app.rlts.logic.SessionManager;
+import com.app.rlts.manager.SessionManager;
 
 import java.util.ArrayList;
 

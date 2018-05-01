@@ -53,4 +53,5 @@
     <string name="entry_type_exit">Entry type: Exit</string>
     <string name="enter">Enter</string>
     <string name="exit">Exit</string>
+    <string name="channel_name">Channel name</string>
 </resources>

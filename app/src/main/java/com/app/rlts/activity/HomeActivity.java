@@ -19,7 +19,7 @@ import com.app.rlts.fragment.NotificationFragment;
 import com.app.rlts.fragment.ResourcesFragment;
 import com.app.rlts.fragment.TimelogFragment;
 import com.app.rlts.interfaces.AsyncResponse;
-import com.app.rlts.logic.SessionManager;
+import com.app.rlts.manager.SessionManager;
 import com.app.rlts.task.AsyncAddTimelogTask;
 import com.app.rlts.task.AsyncGetBeaconsTask;
 import com.estimote.internal_plugins_api.cloud.CloudCredentials;

@@ -1,4 +1,4 @@
-package com.app.rlts.logic;
+package com.app.rlts.manager;
 
 import android.content.Context;
 import android.content.Intent;

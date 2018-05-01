@@ -10,8 +10,8 @@ import android.view.MenuItem;
 
 import com.app.rlts.R;
 import com.app.rlts.entity.Timelog;
-import com.app.rlts.logic.PagerAdapter;
-import com.app.rlts.logic.SessionManager;
+import com.app.rlts.manager.PagerAdapterManager;
+import com.app.rlts.manager.SessionManager;
 
 import java.util.ArrayList;
 
@@ -49,7 +49,7 @@ public class LocationTimelogActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapterManager adapter = new PagerAdapterManager(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

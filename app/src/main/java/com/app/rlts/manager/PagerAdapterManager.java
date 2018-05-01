@@ -1,4 +1,4 @@
-package com.app.rlts.logic;
+package com.app.rlts.manager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.app.rlts.fragment.EnterTimelogFragment;
 import com.app.rlts.fragment.ExitTimelogFragment;
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapterManager extends FragmentStatePagerAdapter {
 
     int tabNo;
 
-    public PagerAdapter(FragmentManager fm, int tabNo) {
+    public PagerAdapterManager(FragmentManager fm, int tabNo) {
 
         super(fm);
         this.tabNo = tabNo;
