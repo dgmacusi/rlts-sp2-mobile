@@ -30,10 +30,11 @@
             android:label="@string/title_activity_home2" />
         <activity
             android:name=".activity.TimelogActivity"
-            android:label="RLTS"></activity>
+            android:label="RLTS" />
         <activity
             android:name=".activity.NotificationActivity"
-            android:label="RLTS"></activity>
+            android:label="RLTS" />
+        <activity android:name=".activity.LocationTimelogActivity"></activity>
     </application>
 
 </manifest>
