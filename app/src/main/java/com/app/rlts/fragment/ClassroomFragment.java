@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.app.rlts.R;
-import com.app.rlts.activity.TimelogActivity;
+import com.app.rlts.activity.LocationTimelogActivity;
 import com.app.rlts.entity.Timelog;
 import com.app.rlts.interfaces.AsyncTimelogResponse;
 import com.app.rlts.task.AsyncGetClassroomTimelogTask;
@@ -69,13 +69,12 @@ public class ClassroomFragment extends Fragment implements AsyncTimelogResponse{
             e.printStackTrace();
         }
 
-        Intent i = new Intent(getActivity(), TimelogActivity.class);
+        Intent i = new Intent(getActivity(), LocationTimelogActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("timelogArray", (Serializable)timelogArray);
 
         i.putExtras(bundle);
-        i.putExtra("fragment", "classroom");
         startActivity(i);
 
     }

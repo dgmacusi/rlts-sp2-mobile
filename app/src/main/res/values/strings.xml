@@ -50,5 +50,7 @@
     <string name="entry_type">Entry type</string>
     <string name="name">Name</string>
     <string name="entry_type_enter">Entry type: Enter</string>
-    <string name="entry_type_exit">Enter type: Exit</string>
+    <string name="entry_type_exit">Entry type: Exit</string>
+    <string name="enter">Enter</string>
+    <string name="exit">Exit</string>
 </resources>
