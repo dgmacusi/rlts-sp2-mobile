@@ -1,4 +1,6 @@
 package com.app.rlts.manager;
 
-public class NotificationManager {
+import android.app.Application;
+
+public class NotificationManager extends Application{
 }

@@ -62,19 +62,19 @@ public class TimelogActivity extends AppCompatActivity {
             time.setTextColor(getResources().getColor(R.color.black));
             time.setLayoutParams(rowLayoutParams);
 
-            TextView location = new TextView(this);
-            location.setText(timelogArray.get(i).getLocationName());
-            location.setTextColor(getResources().getColor(R.color.black));
-            location.setLayoutParams(rowLayoutParams);
-
             TextView entryType = new TextView(this);
             entryType.setText(timelogArray.get(i).getEntryType());
             entryType.setTextColor(getResources().getColor(R.color.black));
             entryType.setLayoutParams(rowLayoutParams);
 
+            TextView location = new TextView(this);
+            location.setText(timelogArray.get(i).getLocationName());
+            location.setTextColor(getResources().getColor(R.color.black));
+            location.setLayoutParams(rowLayoutParams);
+
             row.addView(time);
-            row.addView(location);
             row.addView(entryType);
+            row.addView(location);
             person_table.addView(row);
         }
     }
