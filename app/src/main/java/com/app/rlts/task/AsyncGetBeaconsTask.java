@@ -31,7 +31,7 @@ public class AsyncGetBeaconsTask extends AsyncTask<String, String, String> {
         URL url = null;
 
         try{
-            url = new URL("http://192.168.0.104:3000/getAllBeacons/web");
+            url = new URL("http://192.168.0.19:3000/getAllBeacons/web");
         }catch(MalformedURLException e){
             e.printStackTrace();
             return e.getMessage();

@@ -1,5 +1,6 @@
 package com.app.rlts.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.app.rlts.R;
@@ -18,7 +20,9 @@ import com.app.rlts.interfaces.AsyncTimelogResponse;
 import com.app.rlts.task.AsyncGetClassroomTimelogTask;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ClassroomFragment extends Fragment implements AsyncTimelogResponse{
 
@@ -31,12 +35,34 @@ public class ClassroomFragment extends Fragment implements AsyncTimelogResponse{
     EditText classroom_gradelevel;
     EditText classroom_section;
 
+    Calendar calendar = Calendar.getInstance();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflateView = inflater.inflate(R.layout.fragment_classroom, container, false);
 
         classroom_date = (EditText) inflateView.findViewById(R.id.classroom_date);
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+        };
+
+        classroom_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(getActivity(), date,
+                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         classroom_gradelevel = (EditText) inflateView.findViewById(R.id.classroom_gradelevel);
         classroom_section = (EditText) inflateView.findViewById(R.id.classroom_section);
 
@@ -55,6 +81,14 @@ public class ClassroomFragment extends Fragment implements AsyncTimelogResponse{
         });
 
         return inflateView;
+    }
+
+    private void updateLabel(){
+
+        String format = "yyyy-MM-dd";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+
+        classroom_date.setText(dateFormat.format(calendar.getTime()));
     }
 
     @Override

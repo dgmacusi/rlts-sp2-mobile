@@ -8,14 +8,17 @@
         android:id="@+id/studentteacher_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        android:hint="@string/dd_mm_yyyy"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/border"/>
+        android:background="@drawable/border"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="@string/date"
+        android:inputType="date" />
 
     <EditText
         android:id="@+id/studentteacher_number"
