@@ -18,6 +18,10 @@ public class AsyncSendNotificationTask extends AsyncTask<String, String, String>
     HttpURLConnection conn;
     URL url = null;
 
+    public AsyncSendNotificationTask(Notification notification){
+        this.notification = notification;
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
