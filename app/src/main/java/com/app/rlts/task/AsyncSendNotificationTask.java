@@ -47,9 +47,11 @@ public class AsyncSendNotificationTask extends AsyncTask<String, String, String>
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
+            String locations = this.notification.getSendTo().toString().replace("[","").replace("]","").replaceAll("\\s","").trim();
+
             Uri.Builder builder = new Uri.Builder()
                     .appendQueryParameter("title", this.notification.getTitle())
-                    .appendQueryParameter("send_to", String.valueOf(this.notification.getSendTo()))
+                    .appendQueryParameter("send_to", locations)
                     .appendQueryParameter("body", this.notification.getBody());
             String query = builder.build().getEncodedQuery();
 

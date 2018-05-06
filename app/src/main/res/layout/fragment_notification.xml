@@ -19,7 +19,7 @@
         android:ems="10"
         android:hint="@string/title" />
 
-    <Textview
+    <TextView
         android:id="@+id/notif_sendto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,33 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/border"
         android:ems="10"
-        android:hint="@string/send_to" />   
+        android:textSize="12sp" />
+
+    <Spinner
+        android:id="@+id/spinner_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:ems="10" />
+
+    <!-- <Button
+         android:id="@+id/notif_sendto_button"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="5dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         android:layout_marginTop="5dp"
+         android:background="@drawable/border"
+         android:ems="10"
+         android:text="@string/send_to"
+         android:gravity="left"
+         android:textColor="@color/grey"
+         android:textAllCaps="false"/>-->
 
     <EditText
         android:id="@+id/notif_body"

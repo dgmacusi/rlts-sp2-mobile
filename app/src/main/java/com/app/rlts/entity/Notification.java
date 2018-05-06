@@ -1,14 +1,16 @@
 package com.app.rlts.entity;
 
+import java.util.ArrayList;
+
 public class Notification {
 
     private String date;
     private String time;
     private String title;
-    private String sendTo; //arraylist dapat to
+    private ArrayList<String> sendTo; //arraylist dapat to
     private String body;
 
-    public Notification(String date, String time, String title, String sendTo, String body){
+    public Notification(String date, String time, String title, ArrayList<String> sendTo, String body){
 
         this.date = date;
         this.time = time;
@@ -29,7 +31,7 @@ public class Notification {
         return title;
     }
 
-    public String getSendTo() {
+    public ArrayList<String> getSendTo() {
         return sendTo;
     }
 
@@ -49,7 +51,7 @@ public class Notification {
         this.title = title;
     }
 
-    public void setSendTo(String sendTo) {
+    public void setSendTo(ArrayList<String> sendTo) {
         this.sendTo = sendTo;
     }
 
