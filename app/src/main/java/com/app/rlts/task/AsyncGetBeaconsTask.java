@@ -72,6 +72,7 @@ public class AsyncGetBeaconsTask extends AsyncTask<String, String, String> {
 
                 for (int i = 0; i < beaconArray.length(); i++) {
                     JSONObject b = beaconArray.getJSONObject(i);
+                    int locationId = b.getInt("locationId");
                     String locationName = b.getString("locationName");
                     String beaconName = b.getString("beaconName");
                     int minor = b.getInt("minor");
@@ -79,7 +80,7 @@ public class AsyncGetBeaconsTask extends AsyncTask<String, String, String> {
                     String uuid = b.getString("uuid");
                     String type = b.getString("type");
 
-                    Beacon beacon = new Beacon(locationName, beaconName, minor, major, uuid, type);
+                    Beacon beacon = new Beacon(locationId, locationName, beaconName, minor, major, uuid, type);
                     beacons.add(beacon);
                 }
 
@@ -103,7 +104,7 @@ public class AsyncGetBeaconsTask extends AsyncTask<String, String, String> {
         if (beacons.size() > 0) {
             delegate.retrieveBeacons(beacons);
         } else {
-            beacons.add(new Beacon(result, "test beacon", 0, 0, "test uuid", "test type"));
+            beacons.add(new Beacon(0, result, "test beacon", 0, 0, "test uuid", "test type"));
             delegate.retrieveBeacons(beacons);
         }
     }

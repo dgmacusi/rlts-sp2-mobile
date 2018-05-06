@@ -86,8 +86,8 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
                     String sendTo = n.getString("sendTo");
                     String body = n.getString("body");
 
-                    Notification notification = new Notification(date, time, title, sendTo, body);
-                    notifications.add(notification);
+                    //Notification notification = new Notification(date, time, title, sendTo, body);
+                    //notifications.add(notification);
                 }
 
                 return "Retrieving notifications: Success";
@@ -108,7 +108,7 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
         if(notifications.size() > 0){
             delegate.retrieveNotifications(notifications);
         }else{
-            notifications.add(new Notification(s, "test time", "test title", "test sendTo", "test body"));
+            //notifications.add(new Notification(s, "test time", "test title", "test sendTo", "test body"));
             delegate.retrieveNotifications(notifications);
         }
     }

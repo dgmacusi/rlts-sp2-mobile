@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_notif_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/notif_title"
@@ -18,7 +19,7 @@
         android:ems="10"
         android:hint="@string/title" />
 
-    <EditText
+    <TextView
         android:id="@+id/notif_sendto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +29,33 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/border"
         android:ems="10"
-        android:hint="@string/send_to" />
+        android:textSize="12sp" />
+
+    <Spinner
+        android:id="@+id/spinner_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:ems="10" />
+
+    <!-- <Button
+         android:id="@+id/notif_sendto_button"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="5dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         android:layout_marginTop="5dp"
+         android:background="@drawable/border"
+         android:ems="10"
+         android:text="@string/send_to"
+         android:gravity="left"
+         android:textColor="@color/grey"
+         android:textAllCaps="false"/>-->
 
     <EditText
         android:id="@+id/notif_body"
@@ -46,9 +73,9 @@
         android:id="@+id/notif_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
         android:layout_gravity="right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
         android:text="@string/send" />
 
 </LinearLayout>
