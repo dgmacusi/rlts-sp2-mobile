@@ -90,9 +90,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         loadFragment(new TimelogFragment());
 
         new AsyncGetBeaconsTask(this).execute();
-
-        createProximityZone();
-        startProximityObserver();
     }
 
     @Override
@@ -101,16 +98,101 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         try{
             beaconArray.clear();
             for (int i = 0; i < bList.size(); i++) {
-                this.beaconArray.add(bList.get(i));
+                if(!(bList.get(i).getLocationName().equalsIgnoreCase("NA"))){
+                    this.beaconArray.add(bList.get(i));
+                }
             }
 
             this.check2View.setText(String.valueOf(beaconArray.size()));
+
+            createProximityZone();
+            startProximityObserver();
         }catch (Exception e){
             this.check2View.setText(e.getMessage());
         }
     }
 
     private void createProximityZone(){
+
+        CloudCredentials cloudCredentials =
+                new EstimoteCloudCredentials(getString(R.string.app_id), getString(R.string.app_token));
+
+        // create the Proximity Observer
+        this.proximityObserver =
+                new ProximityObserverBuilder(getApplicationContext(), (EstimoteCloudCredentials) cloudCredentials)
+                        .withOnErrorAction(new Function1<Throwable, Unit>() {
+                            @Override
+                            public Unit invoke(Throwable throwable) {
+                                Log.e("app", "proximity observer error" + throwable);
+                                return null;
+                            }
+                        })
+                        .withBalancedPowerMode()
+                        .withScannerInForegroundService(new Notification())
+                        .build();
+
+        for (int i = 0; i < this.beaconArray.size(); i++) {
+            ProximityZone beaconZone = this.proximityObserver.zoneBuilder()
+                    .forAttachmentKeyAndValue("major", String.valueOf(this.beaconArray.get(i).getMajor()))
+                    .inNearRange()
+                    .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
+                        @Override
+                        public Unit invoke(ProximityAttachment attachment) {
+
+                            calendar = Calendar.getInstance();
+                            String date = dateFormat.format(calendar.getTime());
+                            String time = timeFormat.format(calendar.getTime());
+
+                            for (int i = 0; i < beaconArray.size(); i++) {
+                                if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
+                                    Timelog timelog = new Timelog(date, time, "enter", beaconArray.get(i).getLocationName(), username);
+                                    new AsyncAddTimelogTask(timelog).execute();
+                                    timeCheckView.setText("enter");
+                                    String name = beaconArray.get(i).getBeaconName();
+                                    dateCheckView.setText(name);
+
+                                }
+                            }
+                            beaconCheckView.setText(R.string.welcome);
+
+                            Log.d("app", "Welcome!");
+                            return null;
+                        }
+                    })
+                    .withOnExitAction(new Function1<ProximityAttachment, Unit>() {
+                        @Override
+                        public Unit invoke(ProximityAttachment attachment) {
+
+                            calendar = Calendar.getInstance();
+                            String date = dateFormat.format(calendar.getTime());
+                            String time = timeFormat.format(calendar.getTime());
+
+                            for (int i = 0; i < beaconArray.size(); i++) {
+                                if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
+                                    Timelog timelog = new Timelog(date, time, "exit", beaconArray.get(i).getLocationName(), username);
+                                    new AsyncAddTimelogTask(timelog).execute();
+                                    timeCheckView.setText("exit");
+                                    String name = beaconArray.get(i).getBeaconName();
+                                    dateCheckView.setText(name);
+                                }
+                            }
+                            beaconCheckView.setText(R.string.bye);
+
+                            Log.d("app", "Bye bye!");
+                            return null;
+                        }
+                    })
+                    .create();
+
+
+
+
+
+            this.proximityObserver.addProximityZone(beaconZone);
+        }
+    }
+
+    /*private void createProximityZone(){
 
         CloudCredentials cloudCredentials =
                 new EstimoteCloudCredentials(getString(R.string.app_id), getString(R.string.app_token));
@@ -198,9 +280,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     }
                 })
                 .create();
-        this.proximityObserver.addProximityZone(major2780);*/
+        this.proximityObserver.addProximityZone(major2780);
 
-    }
+    }*/
 
     private void startProximityObserver(){
         // request requirements permission

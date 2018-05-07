@@ -41,7 +41,7 @@ public class AsyncGetStudentTeacherTimelogTask extends AsyncTask<String, String,
         URL url = null;
 
         try {
-            url = new URL("http://192.168.0.19:3000/getStudentTeacherTimelog/web");
+            url = new URL("http://192.168.1.12:3000/getStudentTeacherTimelog/web");
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();

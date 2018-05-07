@@ -92,7 +92,9 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
         try{
             beaconArray.clear();
             for (int i = 0; i < bList.size(); i++) {
-                this.beaconArray.add(bList.get(i));
+                if(!(bList.get(i).getLocationName().equalsIgnoreCase("NA"))){
+                    this.beaconArray.add(bList.get(i));
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
