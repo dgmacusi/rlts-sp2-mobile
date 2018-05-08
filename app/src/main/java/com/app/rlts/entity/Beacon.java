@@ -1,7 +1,7 @@
 package com.app.rlts.entity;
 
 public class Beacon {
-	private int locationId;
+	private int beaconId;
 	private String locationName;
 	private String beaconName;
 	private int minor;
@@ -9,8 +9,8 @@ public class Beacon {
 	private String uuid;
 	private String type;
 
-	public Beacon(int locationId, String locationName, String beaconName, int minor, int major, String uuid, String type) {
-		this.locationId = locationId;
+	public Beacon(int beaconId, String locationName, String beaconName, int minor, int major, String uuid, String type) {
+		this.beaconId = beaconId;
 		this.locationName = locationName;
 		this.beaconName = beaconName;
 		this.minor = minor;
@@ -19,8 +19,8 @@ public class Beacon {
 		this.type = type;
 	}
 
-	public int getLocationId() {
-		return locationId;
+	public int getBeaconId() {
+		return beaconId;
 	}
 
 	public String getLocationName() {
@@ -42,8 +42,8 @@ public class Beacon {
 		return this.type;
 	}
 
-	public void setLocationId(int locationId) {
-		this.locationId = locationId;
+	public void setBeaconId(int beaconId) {
+		this.beaconId = beaconId;
 	}
 
 	public void setLocationName(String locationName) {

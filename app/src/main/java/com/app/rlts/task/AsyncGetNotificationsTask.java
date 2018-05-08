@@ -80,14 +80,14 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
 
                     JSONObject n = notificationArray.getJSONObject(i);
 
-                    String date = n.getString("date");
-                    String time = n.getString("time");
+                    int notificationId = n.getInt("notificationId");
+                    int beaconId = n.getInt("beaconId");
+                    String sender = n.getString("sender");
                     String title = n.getString("title");
-                    String sendTo = n.getString("sendTo");
                     String body = n.getString("body");
 
-                    //Notification notification = new Notification(date, time, title, sendTo, body);
-                    //notifications.add(notification);
+                    Notification notification = new Notification(notificationId, beaconId, sender, title, body);
+                    notifications.add(notification);
                 }
 
                 return "Retrieving notifications: Success";

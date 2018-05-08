@@ -13,10 +13,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.rlts.R;
+import com.app.rlts.activity.HomeActivity;
 import com.app.rlts.entity.Beacon;
-import com.app.rlts.entity.Notification;
 import com.app.rlts.entity.StateVO;
+import com.app.rlts.entity.WebNotification;
 import com.app.rlts.interfaces.AsyncResponse;
+import com.app.rlts.manager.SessionManager;
 import com.app.rlts.manager.SpinnerAdapter;
 import com.app.rlts.task.AsyncGetBeaconsTask;
 import com.app.rlts.task.AsyncSendNotificationTask;
@@ -24,10 +26,12 @@ import com.app.rlts.task.AsyncSendNotificationTask;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class NotificationFragment extends Fragment implements AsyncResponse{
 
     View inflateView;
+    SessionManager session;
     Button sendButton;
 
     Calendar calendar;
@@ -49,6 +53,8 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
 
         inflateView = inflater.inflate(R.layout.fragment_notification, container, false);
 
+        session = new SessionManager(getActivity().getApplicationContext());
+
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         timeFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -65,6 +71,8 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
             @Override
             public void onClick(View v) {
 
+                HomeActivity.tryvar = "hello";
+
                 calendar = Calendar.getInstance();
                 String date = dateFormat.format(calendar.getTime());
                 String time = dateFormat.format(calendar.getTime());
@@ -73,10 +81,13 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
                 ArrayList<String> locations = myAdapter.getListState();
                 String body = notif_body.getText().toString();
 
-                TextView check = (TextView) inflateView.findViewById(R.id.notif_sendto);
-                check.setText(String.valueOf(locations.get(0)));
+                HashMap<String, String> user = session.getUserDetails();
+                String username = user.get(SessionManager.KEY_NAME);
 
-                Notification notification = new Notification(date, time, title, locations, body);
+                TextView check = (TextView) inflateView.findViewById(R.id.notif_sendto);
+                check.setText(HomeActivity.tryvar);
+
+                WebNotification notification = new WebNotification(date, time, title, locations, body, username);
                 new AsyncSendNotificationTask(notification).execute();
 
                 new AsyncGetBeaconsTask(NotificationFragment.this).execute();
@@ -111,7 +122,7 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
         for (int i = 0; i < beaconArray.size(); i++) {
             StateVO stateVO = new StateVO();
             stateVO.setLocation(beaconArray.get(i).getLocationName());
-            stateVO.setId(beaconArray.get(i).getLocationId());
+            stateVO.setId(beaconArray.get(i).getBeaconId());
             stateVO.setSelected(false);
             listVOs.add(stateVO);
         }

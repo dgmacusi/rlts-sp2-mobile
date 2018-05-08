@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.app.rlts.activity.LoginActivity;
 import com.app.rlts.entity.Notification;
+import com.app.rlts.entity.WebNotification;
 
 import java.io.BufferedWriter;
 import java.io.OutputStream;
@@ -14,11 +15,11 @@ import java.net.URL;
 
 public class AsyncSendNotificationTask extends AsyncTask<String, String, String>{
 
-    public Notification notification = null;
+    public WebNotification notification = null;
     HttpURLConnection conn;
     URL url = null;
 
-    public AsyncSendNotificationTask(Notification notification){
+    public AsyncSendNotificationTask(WebNotification notification){
         this.notification = notification;
     }
 
@@ -52,7 +53,8 @@ public class AsyncSendNotificationTask extends AsyncTask<String, String, String>
             Uri.Builder builder = new Uri.Builder()
                     .appendQueryParameter("title", this.notification.getTitle())
                     .appendQueryParameter("send_to", locations)
-                    .appendQueryParameter("body", this.notification.getBody());
+                    .appendQueryParameter("body", this.notification.getBody())
+                    .appendQueryParameter("username", this.notification.getUsername());
             String query = builder.build().getEncodedQuery();
 
             OutputStream output = conn.getOutputStream();

@@ -1,10 +1,14 @@
 package com.app.rlts.activity;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -58,6 +62,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     TextView dateCheckView;
     TextView timeCheckView;
 
+    public static String tryvar = new String("try");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +97,54 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         new AsyncGetBeaconsTask(this).execute();
     }
+
+    public void oreoNotification(String title, String text){
+
+        // set an id for the notification so it can be updated
+        int notif_id = 1;
+
+        String channel_id = "channel_id";
+        CharSequence name = getString(R.string.channel_name);
+        int importance = android.app.NotificationManager.IMPORTANCE_HIGH;
+
+        // create a notification and set the notification channel
+        Notification notification = new NotificationCompat.Builder(this, channel_id)
+                .setSmallIcon(R.drawable.ic_schedule_black_24dp)
+                .setContentTitle(title)
+                .setContentText(text)
+                .build();
+
+        // get an instance of notification manager service
+        android.app.NotificationManager manager = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channel_id, name, importance);
+            manager.createNotificationChannel(channel);
+        }
+
+        manager.notify(notif_id, notification);
+    }
+
+    /*public void nonOreoNotification(String title, String text){
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivities(this, 0,
+                new Intent[] {intent}, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_schedule_black_24dp)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        android.app.NotificationManager manager = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(1, notification);
+
+    }*/
 
     @Override
     public void retrieveBeacons(ArrayList<Beacon> bList){
@@ -138,6 +192,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     .withOnEnterAction(new Function1<ProximityAttachment, Unit>() {
                         @Override
                         public Unit invoke(ProximityAttachment attachment) {
+
+                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                                oreoNotification("Notification", "Hello from the other side.");
+                            }/*else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                                nonOreoNotification("Notification", "Hello from the other side.");
+                            }*/
 
                             calendar = Calendar.getInstance();
                             String date = dateFormat.format(calendar.getTime());
