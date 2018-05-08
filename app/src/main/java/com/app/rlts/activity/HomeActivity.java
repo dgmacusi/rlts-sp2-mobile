@@ -22,10 +22,12 @@ import com.app.rlts.entity.Timelog;
 import com.app.rlts.fragment.NotificationFragment;
 import com.app.rlts.fragment.ResourcesFragment;
 import com.app.rlts.fragment.TimelogFragment;
+import com.app.rlts.interfaces.AsyncNotificationResponse;
 import com.app.rlts.interfaces.AsyncResponse;
 import com.app.rlts.manager.SessionManager;
 import com.app.rlts.task.AsyncAddTimelogTask;
 import com.app.rlts.task.AsyncGetBeaconsTask;
+import com.app.rlts.task.AsyncGetNotificationsTask;
 import com.estimote.internal_plugins_api.cloud.CloudCredentials;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
@@ -45,7 +47,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AsyncResponse {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AsyncResponse, AsyncNotificationResponse {
 
     SessionManager session;
     private ProximityObserver proximityObserver;
@@ -62,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     TextView dateCheckView;
     TextView timeCheckView;
 
-    public static String tryvar = new String("try");
+    public static int currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +168,16 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+    @Override
+    public void retrieveNotifications(ArrayList<com.app.rlts.entity.Notification> nList) {
+
+        for (int i = 0; i < nList.size(); i++) {
+            if (currentLocation == nList.get(i).getBeaconId()) {
+                oreoNotification(nList.get(i).getTitle(), nList.get(i).getBody());
+            }
+        }
+    }
+
     private void createProximityZone(){
 
         CloudCredentials cloudCredentials =
@@ -193,9 +205,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         @Override
                         public Unit invoke(ProximityAttachment attachment) {
 
-                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                            /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                                 oreoNotification("Notification", "Hello from the other side.");
-                            }/*else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                            }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                                 nonOreoNotification("Notification", "Hello from the other side.");
                             }*/
 
@@ -205,12 +217,15 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
                             for (int i = 0; i < beaconArray.size(); i++) {
                                 if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
+
                                     Timelog timelog = new Timelog(date, time, "enter", beaconArray.get(i).getLocationName(), username);
                                     new AsyncAddTimelogTask(timelog).execute();
                                     timeCheckView.setText("enter");
                                     String name = beaconArray.get(i).getBeaconName();
                                     dateCheckView.setText(name);
 
+                                    currentLocation = beaconArray.get(i).getBeaconId();
+                                    new AsyncGetNotificationsTask(HomeActivity.this).execute();
                                 }
                             }
                             beaconCheckView.setText(R.string.welcome);

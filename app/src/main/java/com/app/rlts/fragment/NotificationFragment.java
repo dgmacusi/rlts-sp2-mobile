@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.rlts.R;
-import com.app.rlts.activity.HomeActivity;
 import com.app.rlts.entity.Beacon;
 import com.app.rlts.entity.StateVO;
 import com.app.rlts.entity.WebNotification;
@@ -71,8 +70,6 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
             @Override
             public void onClick(View v) {
 
-                HomeActivity.tryvar = "hello";
-
                 calendar = Calendar.getInstance();
                 String date = dateFormat.format(calendar.getTime());
                 String time = dateFormat.format(calendar.getTime());
@@ -85,7 +82,7 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
                 String username = user.get(SessionManager.KEY_NAME);
 
                 TextView check = (TextView) inflateView.findViewById(R.id.notif_sendto);
-                check.setText(HomeActivity.tryvar);
+                check.setText(String.valueOf(locations.get(0)));
 
                 WebNotification notification = new WebNotification(date, time, title, locations, body, username);
                 new AsyncSendNotificationTask(notification).execute();
