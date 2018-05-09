@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     TextView dateCheckView;
     TextView timeCheckView;
 
-    public static int currentLocation;
+    public static int currentLocation = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +100,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         new AsyncGetBeaconsTask(this).execute();
     }
 
-    public void oreoNotification(String title, String text){
-
+    public void oreoNotification(int notif_id, String title, String text){
         // set an id for the notification so it can be updated
-        int notif_id = 1;
 
         String channel_id = "channel_id";
         CharSequence name = getString(R.string.channel_name);
@@ -171,9 +169,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void retrieveNotifications(ArrayList<com.app.rlts.entity.Notification> nList) {
 
+        beaconCheckView.setText(String.valueOf(currentLocation));
         for (int i = 0; i < nList.size(); i++) {
             if (currentLocation == nList.get(i).getBeaconId()) {
-                oreoNotification(nList.get(i).getTitle(), nList.get(i).getBody());
+                oreoNotification(i, nList.get(i).getTitle(), nList.get(i).getBody());
             }
         }
     }
@@ -228,7 +227,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                                     new AsyncGetNotificationsTask(HomeActivity.this).execute();
                                 }
                             }
-                            beaconCheckView.setText(R.string.welcome);
+                            //beaconCheckView.setText(R.string.welcome);
 
                             Log.d("app", "Welcome!");
                             return null;

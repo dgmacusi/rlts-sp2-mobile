@@ -86,7 +86,7 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
                     String title = n.getString("title");
                     String body = n.getString("body");
 
-                    Notification notification = new Notification(notificationId, beaconId, sender, title, body);
+                    Notification notification = new Notification(beaconId, notificationId, sender, title, body);
                     notifications.add(notification);
                 }
 
