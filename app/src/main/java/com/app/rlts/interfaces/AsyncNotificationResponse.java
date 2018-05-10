@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public interface AsyncNotificationResponse {
 
-    public void retrieveNotifications(ArrayList<Notification> notifications);
+    public void retrieveNotifications(ArrayList<Notification> notifications, String type);
 }

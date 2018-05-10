@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -39,9 +40,12 @@ import com.estimote.proximity_sdk.proximity.ProximityZone;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
@@ -52,6 +56,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     SessionManager session;
     private ProximityObserver proximityObserver;
     ArrayList<Beacon> beaconArray = new ArrayList<Beacon>();
+    ArrayList<Integer> currentLocation = new ArrayList<Integer>();
+    ArrayList<Integer> receivedNotifications = new ArrayList<Integer>();
 
     String username;
 
@@ -63,8 +69,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     TextView beaconCheckView;
     TextView dateCheckView;
     TextView timeCheckView;
-
-    public static int currentLocation = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +102,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         loadFragment(new TimelogFragment());
 
         new AsyncGetBeaconsTask(this).execute();
+
+        callAsynchronousTask();
     }
 
-    public void oreoNotification(int notif_id, String title, String text){
+    public void oreoNotification(int notif_id, String title, String text) {
         // set an id for the notification so it can be updated
 
         String channel_id = "channel_id";
@@ -147,12 +153,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }*/
 
     @Override
-    public void retrieveBeacons(ArrayList<Beacon> bList){
+    public void retrieveBeacons(ArrayList<Beacon> bList) {
 
-        try{
+        try {
             beaconArray.clear();
             for (int i = 0; i < bList.size(); i++) {
-                if(!(bList.get(i).getLocationName().equalsIgnoreCase("NA"))){
+                if (!(bList.get(i).getLocationName().equalsIgnoreCase("NA"))) {
                     this.beaconArray.add(bList.get(i));
                 }
             }
@@ -161,23 +167,52 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
             createProximityZone();
             startProximityObserver();
-        }catch (Exception e){
+        } catch (Exception e) {
             this.check2View.setText(e.getMessage());
         }
     }
 
     @Override
-    public void retrieveNotifications(ArrayList<com.app.rlts.entity.Notification> nList) {
+    public void retrieveNotifications(ArrayList<com.app.rlts.entity.Notification> nList, String type) {
 
-        beaconCheckView.setText(String.valueOf(currentLocation));
+
         for (int i = 0; i < nList.size(); i++) {
-            if (currentLocation == nList.get(i).getBeaconId()) {
-                oreoNotification(i, nList.get(i).getTitle(), nList.get(i).getBody());
+            if (currentLocation.size() > 0 && currentLocation.get(currentLocation.size() - 1) == nList.get(i).getBeaconId()) {
+                if (type.equalsIgnoreCase("enter")) {
+                    oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getTitle(), nList.get(i).getBody());
+                } else if (type.equalsIgnoreCase("real-time")) {
+                    if (!(receivedNotifications.contains(nList.get(i).getNotificationId()))) {
+                        oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getTitle(), nList.get(i).getBody());
+                        receivedNotifications.add(nList.get(i).getNotificationId());
+                    }
+                }
+
             }
         }
     }
 
-    private void createProximityZone(){
+    public void callAsynchronousTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            new AsyncGetNotificationsTask(HomeActivity.this).execute("real-time");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            ;
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsynchronousTask, 0, 5000);
+    }
+
+    private void createProximityZone() {
 
         CloudCredentials cloudCredentials =
                 new EstimoteCloudCredentials(getString(R.string.app_id), getString(R.string.app_token));
@@ -223,8 +258,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                                     String name = beaconArray.get(i).getBeaconName();
                                     dateCheckView.setText(name);
 
-                                    currentLocation = beaconArray.get(i).getBeaconId();
-                                    new AsyncGetNotificationsTask(HomeActivity.this).execute();
+                                    if (!(currentLocation.contains(beaconArray.get(i).getBeaconId()))) {
+                                        currentLocation.add(beaconArray.get(i).getBeaconId());
+                                    }
+
+                                    new AsyncGetNotificationsTask(HomeActivity.this).execute("enter");
                                 }
                             }
                             //beaconCheckView.setText(R.string.welcome);
@@ -248,6 +286,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                                     timeCheckView.setText("exit");
                                     String name = beaconArray.get(i).getBeaconName();
                                     dateCheckView.setText(name);
+
+                                    currentLocation.removeAll(Arrays.asList(beaconArray.get(i).getBeaconId()));
                                 }
                             }
                             beaconCheckView.setText(R.string.bye);
@@ -257,9 +297,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         }
                     })
                     .create();
-
-
-
 
 
             this.proximityObserver.addProximityZone(beaconZone);
@@ -358,14 +395,15 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     }*/
 
-    private void startProximityObserver(){
+    private void startProximityObserver() {
         // request requirements permission
         RequirementsWizardFactory
                 .createEstimoteRequirementsWizard()
                 .fulfillRequirements(this,
                         // onRequirementsFulfilled
                         new Function0<Unit>() {
-                            @Override public Unit invoke() {
+                            @Override
+                            public Unit invoke() {
                                 Log.d("app", "requirements fulfilled");
                                 proximityObserver.start();
                                 return null;
@@ -373,14 +411,16 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         },
                         // onRequirementsMissing
                         new Function1<List<? extends Requirement>, Unit>() {
-                            @Override public Unit invoke(List<? extends Requirement> requirements) {
+                            @Override
+                            public Unit invoke(List<? extends Requirement> requirements) {
                                 Log.e("app", "requirements missing: " + requirements);
                                 return null;
                             }
                         },
                         // onError
                         new Function1<Throwable, Unit>() {
-                            @Override public Unit invoke(Throwable throwable) {
+                            @Override
+                            public Unit invoke(Throwable throwable) {
                                 Log.e("app", "requirements error: " + throwable);
                                 return null;
                             }

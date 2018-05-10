@@ -24,6 +24,8 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
     HttpURLConnection conn;
     URL url = null;
 
+    public String type = null;
+
     public AsyncGetNotificationsTask(AsyncNotificationResponse delegate){
         this.delegate = delegate;
     }
@@ -34,7 +36,9 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected String doInBackground(String... params) {
+
+        type = params[0];
 
         try{
             url = new URL("http://192.168.1.12:3000/getAllNotifications/web");
@@ -106,10 +110,10 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
         super.onPostExecute(s);
 
         if(notifications.size() > 0){
-            delegate.retrieveNotifications(notifications);
+            delegate.retrieveNotifications(notifications, type);
         }else{
             //notifications.add(new Notification(s, "test time", "test title", "test sendTo", "test body"));
-            delegate.retrieveNotifications(notifications);
+            delegate.retrieveNotifications(notifications, type);
         }
     }
 }
