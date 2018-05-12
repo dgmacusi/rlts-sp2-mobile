@@ -30,7 +30,7 @@ public class AsyncAddTimelogTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
         try{
-            url = new URL("http://192.168.1.12:3000/addTimelog/web");
+            url = new URL("http://192.168.0.12:3000/addTimelog/web");
         }catch (Exception e){
             e.printStackTrace();
             return e.getMessage();

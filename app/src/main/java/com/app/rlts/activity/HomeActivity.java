@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.app.rlts.R;
 import com.app.rlts.entity.Beacon;
@@ -65,11 +64,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     SimpleDateFormat dateFormat;
     SimpleDateFormat timeFormat;
 
-    TextView check2View;
-    TextView beaconCheckView;
-    TextView dateCheckView;
-    TextView timeCheckView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,11 +84,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         username = user.get(SessionManager.KEY_NAME);
         String type = user.get(SessionManager.KEY_TYPE);
 
-        check2View = (TextView) findViewById(R.id.check2);
-        beaconCheckView = (TextView) findViewById(R.id.check_beacon);
-        dateCheckView = (TextView) findViewById(R.id.check_date);
-        timeCheckView = (TextView) findViewById(R.id.check_time);
-
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         timeFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -106,7 +95,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         callAsynchronousTask();
     }
 
-    public void oreoNotification(int notif_id, String title, String text) {
+    public void oreoNotification(int notif_id, String sender, String title, String text) {
         // set an id for the notification so it can be updated
 
         String channel_id = "channel_id";
@@ -116,8 +105,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         // create a notification and set the notification channel
         Notification notification = new NotificationCompat.Builder(this, channel_id)
                 .setSmallIcon(R.drawable.ic_schedule_black_24dp)
-                .setContentTitle(title)
-                .setContentText(text)
+                .setContentTitle(getString(R.string.from) + " " + sender)
+                .setContentText(title)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(title + "\n\n" + text))
                 .build();
 
         // get an instance of notification manager service
@@ -163,12 +154,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 }
             }
 
-            this.check2View.setText(String.valueOf(beaconArray.size()));
-
             createProximityZone();
             startProximityObserver();
         } catch (Exception e) {
-            this.check2View.setText(e.getMessage());
+            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -179,10 +169,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         for (int i = 0; i < nList.size(); i++) {
             if (currentLocation.size() > 0 && currentLocation.get(currentLocation.size() - 1) == nList.get(i).getBeaconId()) {
                 if (type.equalsIgnoreCase("enter")) {
-                    oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getTitle(), nList.get(i).getBody());
+                    oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getSender(), nList.get(i).getTitle(), nList.get(i).getBody());
                 } else if (type.equalsIgnoreCase("real-time")) {
                     if (!(receivedNotifications.contains(nList.get(i).getNotificationId()))) {
-                        oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getTitle(), nList.get(i).getBody());
+                        oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getSender(), nList.get(i).getTitle(), nList.get(i).getBody());
                         receivedNotifications.add(nList.get(i).getNotificationId());
                     }
                 }
@@ -254,9 +244,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
                                     Timelog timelog = new Timelog(date, time, "enter", beaconArray.get(i).getLocationName(), username);
                                     new AsyncAddTimelogTask(timelog).execute();
-                                    timeCheckView.setText("enter");
-                                    String name = beaconArray.get(i).getBeaconName();
-                                    dateCheckView.setText(name);
 
                                     if (!(currentLocation.contains(beaconArray.get(i).getBeaconId()))) {
                                         currentLocation.add(beaconArray.get(i).getBeaconId());
@@ -265,7 +252,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                                     new AsyncGetNotificationsTask(HomeActivity.this).execute("enter");
                                 }
                             }
-                            //beaconCheckView.setText(R.string.welcome);
 
                             Log.d("app", "Welcome!");
                             return null;
@@ -283,14 +269,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                                 if (String.valueOf(beaconArray.get(i).getMinor()).equals(attachment.getPayload().get("minor")) && String.valueOf(beaconArray.get(i).getMajor()).equals(attachment.getPayload().get("major"))) {
                                     Timelog timelog = new Timelog(date, time, "exit", beaconArray.get(i).getLocationName(), username);
                                     new AsyncAddTimelogTask(timelog).execute();
-                                    timeCheckView.setText("exit");
-                                    String name = beaconArray.get(i).getBeaconName();
-                                    dateCheckView.setText(name);
 
                                     currentLocation.removeAll(Arrays.asList(beaconArray.get(i).getBeaconId()));
                                 }
                             }
-                            beaconCheckView.setText(R.string.bye);
 
                             Log.d("app", "Bye bye!");
                             return null;

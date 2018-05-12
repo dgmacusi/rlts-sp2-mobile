@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.rlts.R;
@@ -42,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
     private String username;
     private String type;
 
-    TextView checkView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,20 +51,13 @@ public class LoginActivity extends AppCompatActivity {
         usernameField = (EditText) findViewById(R.id.username);
         passwordField = (EditText) findViewById(R.id.password);
 
-        checkView = (TextView) findViewById(R.id.check);
-
         user = session.getUserDetails();
-
-        checkView.setText(user.get(SessionManager.IS_LOGIN));
-
         session.checkLogin();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        checkView.setText(user.get(SessionManager.IS_LOGIN));
 
         session.checkLogin();
     }
@@ -103,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try{
-                url = new URL("http://192.168.1.12:3000/login/web");
+                url = new URL("http://192.168.0.12:3000/login/web");
             }catch(MalformedURLException e){
                 e.printStackTrace();
                 return "exception";

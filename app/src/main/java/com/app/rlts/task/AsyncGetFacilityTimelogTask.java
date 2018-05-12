@@ -41,7 +41,7 @@ public class AsyncGetFacilityTimelogTask extends AsyncTask<String, String, Strin
         URL url = null;
 
         try {
-            url = new URL("http://192.168.1.12:3000/getFacilityTimelog/web");
+            url = new URL("http://192.168.0.12:3000/getFacilityTimelog/web");
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();

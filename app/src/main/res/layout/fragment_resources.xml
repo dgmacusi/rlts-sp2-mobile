@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/resources_title"
@@ -18,8 +18,8 @@
         android:ems="10"
         android:hint="@string/title" />
 
-    <EditText
-        android:id="@+id/resources_sendto"
+    <Spinner
+        android:id="@+id/spinner_location_resources"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -27,8 +27,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/border"
-        android:ems="10"
-        android:hint="@string/send_to" />
+        android:ems="10" />
 
     <Button
         android:layout_width="match_parent"
@@ -39,10 +38,10 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/border"
         android:ems="10"
-        android:text="@string/attachment"
         android:gravity="left"
-        android:textColor="@color/grey"
-        android:textAllCaps="false"/>
+        android:text="@string/attachment"
+        android:textAllCaps="false"
+        android:textColor="@color/grey" />
 
     <EditText
         android:id="@+id/resources_body"
@@ -54,15 +53,16 @@
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:background="@drawable/border"
+        android:gravity="top"
         android:hint="@string/body" />
 
     <Button
         android:id="@+id/resources_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
         android:layout_gravity="right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
         android:text="@string/send" />
 
 </LinearLayout>

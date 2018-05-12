@@ -55,4 +55,7 @@
     <string name="exit">Exit</string>
     <string name="channel_name">Channel name</string>
     <string name="send_to_location">Send to: Location</string>
+    <string name="notification_sent">Notification sent.</string>
+    <string name="resource_sent">Resource sent.</string>
+    <string name="from">From: </string>
 </resources>

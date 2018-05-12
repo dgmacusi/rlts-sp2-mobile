@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.app.rlts.activity.LoginActivity;
-import com.app.rlts.entity.Notification;
 import com.app.rlts.entity.WebNotification;
 
 import java.io.BufferedWriter;
@@ -32,7 +31,7 @@ public class AsyncSendNotificationTask extends AsyncTask<String, String, String>
     protected String doInBackground(String... params) {
 
         try{
-            url = new URL("http://192.168.1.12:3000/sendNotification/web");
+            url = new URL("http://192.168.0.12:3000/sendNotification/web");
         }catch (Exception e){
             e.printStackTrace();
             return e.getMessage();

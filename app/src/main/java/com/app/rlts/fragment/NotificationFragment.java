@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.rlts.R;
 import com.app.rlts.entity.Beacon;
@@ -40,7 +40,6 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
     ArrayList<Beacon> beaconArray = new ArrayList<>();
 
     EditText notif_title;
-    EditText notif_sendTo;
     EditText notif_body;
 
     Spinner spinner;
@@ -81,13 +80,15 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
                 HashMap<String, String> user = session.getUserDetails();
                 String username = user.get(SessionManager.KEY_NAME);
 
-                TextView check = (TextView) inflateView.findViewById(R.id.notif_sendto);
-                check.setText(String.valueOf(locations.get(0)));
-
                 WebNotification notification = new WebNotification(date, time, title, locations, body, username);
                 new AsyncSendNotificationTask(notification).execute();
 
                 new AsyncGetBeaconsTask(NotificationFragment.this).execute();
+
+                notif_title.getText().clear();
+                notif_body.getText().clear();
+
+                Toast.makeText(getActivity(), R.string.notification_sent, Toast.LENGTH_LONG).show();
             }
         });
 
