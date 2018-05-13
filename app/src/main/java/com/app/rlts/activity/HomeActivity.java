@@ -54,6 +54,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     SessionManager session;
     private ProximityObserver proximityObserver;
+
     ArrayList<Beacon> beaconArray = new ArrayList<Beacon>();
     ArrayList<Integer> currentLocation = new ArrayList<Integer>();
     ArrayList<Integer> receivedNotifications = new ArrayList<Integer>();

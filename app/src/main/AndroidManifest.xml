@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +28,16 @@
         <activity android:name=".activity.LoginActivity" />
         <activity
             android:name=".activity.HomeActivity"
-            android:label="@string/title_activity_home2" />
+            android:label="@string/title_activity_home2">
+            <meta-data android:name="com.google.android.apps.drive.APP_ID" android:value="id=seraphic-plexus-204002" />
+            <intent-filter>
+                <action android:name="com.google.android.apps.drive.DRIVE_OPEN" />
+                <data android:mimeType="text/*" />
+                <data android:mimeType="application/msword"/>
+                <data android:mimeType="application/vnd.ms-powerpoint"/>
+                <data android:mimeType="application/pdf"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.TimelogActivity"
             android:label="RLTS" />
