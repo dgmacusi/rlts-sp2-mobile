@@ -2,7 +2,11 @@ package com.app.rlts.activity;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -94,14 +98,23 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         new AsyncGetBeaconsTask(this).execute();
 
         callAsynchronousTask();
+
+        //oreoNotification("http://www.google.com",0, "me", "test", "test");
     }
 
-    public void oreoNotification(int notif_id, String sender, String title, String text) {
+    public void oreoNotification(String downloadLink, int notif_id, String sender, String title, String text) {
         // set an id for the notification so it can be updated
 
         String channel_id = "channel_id";
         CharSequence name = getString(R.string.channel_name);
-        int importance = android.app.NotificationManager.IMPORTANCE_HIGH;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        PendingIntent contentIntent = null;
+
+        if(downloadLink != null){
+            Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(downloadLink));
+
+            contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+        }
 
         // create a notification and set the notification channel
         Notification notification = new NotificationCompat.Builder(this, channel_id)
@@ -110,10 +123,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 .setContentText(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(title + "\n\n" + text))
+                .setContentIntent(contentIntent)
                 .build();
 
+        //notification.setLatestEventInfo(getApplicationContext(), title, text, contentIntent);
+
         // get an instance of notification manager service
-        android.app.NotificationManager manager = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channel_id, name, importance);
@@ -170,10 +186,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         for (int i = 0; i < nList.size(); i++) {
             if (currentLocation.size() > 0 && currentLocation.get(currentLocation.size() - 1) == nList.get(i).getBeaconId()) {
                 if (type.equalsIgnoreCase("enter")) {
-                    oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getSender(), nList.get(i).getTitle(), nList.get(i).getBody());
+                    oreoNotification(nList.get(i).getDownloadLink(), nList.get(i).getNotificationId(), nList.get(i).getSender(), nList.get(i).getTitle(), nList.get(i).getBody());
                 } else if (type.equalsIgnoreCase("real-time")) {
                     if (!(receivedNotifications.contains(nList.get(i).getNotificationId()))) {
-                        oreoNotification(nList.get(i).getNotificationId(), nList.get(i).getSender(), nList.get(i).getTitle(), nList.get(i).getBody());
+                        oreoNotification(nList.get(i).getDownloadLink(), nList.get(i).getNotificationId(), nList.get(i).getSender(), nList.get(i).getTitle(), nList.get(i).getBody());
                         receivedNotifications.add(nList.get(i).getNotificationId());
                     }
                 }

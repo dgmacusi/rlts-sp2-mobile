@@ -80,7 +80,7 @@ public class NotificationFragment extends Fragment implements AsyncResponse{
                 HashMap<String, String> user = session.getUserDetails();
                 String username = user.get(SessionManager.KEY_NAME);
 
-                WebNotification notification = new WebNotification(date, time, title, locations, body, username);
+                WebNotification notification = new WebNotification(date, time, title, locations, body, username, null);
                 new AsyncSendNotificationTask(notification).execute();
 
                 new AsyncGetBeaconsTask(NotificationFragment.this).execute();

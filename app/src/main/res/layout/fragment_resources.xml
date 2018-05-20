@@ -66,4 +66,9 @@
         android:layout_marginRight="10dp"
         android:text="@string/send" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/printthis"/>
+
 </LinearLayout>

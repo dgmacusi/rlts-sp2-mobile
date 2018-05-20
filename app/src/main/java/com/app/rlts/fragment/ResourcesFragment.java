@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.rlts.R;
@@ -33,8 +34,14 @@ import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveResourceClient;
+import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 
@@ -44,6 +51,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
@@ -81,6 +89,7 @@ public class ResourcesFragment extends Fragment implements AsyncResponse {
     File file;
     Uri uri;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,11 +113,11 @@ public class ResourcesFragment extends Fragment implements AsyncResponse {
             @Override
             public void onClick(View v) {
 
-                Intent chooseFile = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-                chooseFile.setType("*/*");
-                startActivityForResult(
-                        Intent.createChooser(chooseFile, "Choose a file"), PICKFILE_RESULT_CODE);
+//                Intent chooseFile = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+//                chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+//                chooseFile.setType("*/*");
+//                startActivityForResult(
+//                        Intent.createChooser(chooseFile, "Choose a file"), PICKFILE_RESULT_CODE);
             }
         });
 
@@ -119,6 +128,7 @@ public class ResourcesFragment extends Fragment implements AsyncResponse {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //startActivityForResult(mGoogleSignInClient.getSignInIntent(), REQUEST_CODE_SIGN_IN);
 
 //                calendar = Calendar.getInstance();
 //                String date = dateFormat.format(calendar.getTime());
@@ -131,20 +141,15 @@ public class ResourcesFragment extends Fragment implements AsyncResponse {
 //                HashMap<String, String> user = session.getUserDetails();
 //                String username = user.get(SessionManager.KEY_NAME);
 //
-//                WebNotification notification = new WebNotification(date, time, title, locations, body, username);
+//                WebNotification notification = new WebNotification(date, time, title, locations, body, username, downloadLink);
 //                new AsyncSendNotificationTask(notification).execute();
 //
 //                new AsyncGetBeaconsTask(ResourcesFragment.this).execute();
 //
-//                notif_title.getText().clear();
-//                notif_body.getText().clear();
-//
-//                Toast.makeText(getActivity(), R.string.resource_sent, Toast.LENGTH_LONG).show();
+                notif_title.getText().clear();
+                notif_body.getText().clear();
 
-//                Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
-//                updateViewWithGoogleSignInAccountTask(task);
-
-                startActivityForResult(mGoogleSignInClient.getSignInIntent(), REQUEST_CODE_SIGN_IN);
+                //Toast.makeText(getActivity(), downloadLink, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -176,15 +181,14 @@ public class ResourcesFragment extends Fragment implements AsyncResponse {
                                 while ((len = in.read(buf)) > 0) {
                                     outputStream.write(buf, 0, len);
                                 }
-                            } catch (Exception e){
-                                Toast.makeText(getActivity(), "New contents created.", Toast.LENGTH_LONG).show();
-                            }finally {
+                            } catch (Exception e) {
+                                //Toast.makeText(getActivity(), "New contents created.", Toast.LENGTH_LONG).show();
+                            } finally {
                                 outputStream.close();
                             }
-                        }catch (Exception e){
-                            Toast.makeText(getActivity(), "New contents created2: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                        finally {
+                        } catch (Exception e) {
+                            //Toast.makeText(getActivity(), "New contents created2: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        } finally {
                             in.close();
                         }
 
@@ -192,13 +196,146 @@ public class ResourcesFragment extends Fragment implements AsyncResponse {
                                 .setTitle(filename)
                                 .setStarred(true)
                                 .build();
+                        //mDriveResourceClient.listChildren(parent).getResult().get().getTitle().getWebContentLink();
+                        //mDriveResourceClient. .getMetadata().getResult().getWebContentLink();
+
+                        //mDriveClient.
+                        //DriveFile driveFile = mDriveResourceClient.createFile(parent, changeSet, contents).getResult().getDriveId().asDriveResource();
+
+                        //Task<DriveFile> driveFileTask =
+//                        DriveResource driveResource = driveFileTask.getResult().getDriveId().asDriveResource();
+//                        downloadLink = mDriveResourceClient.getMetadata(driveResource).getResult().getWebContentLink();
+//                        Toast.makeText(getActivity(), "yeah", Toast.LENGTH_LONG).show();
 
                         return mDriveResourceClient.createFile(parent, changeSet, contents);
                     }
+                }).addOnSuccessListener(new OnSuccessListener<DriveFile>() {
+                    @Override
+                    public void onSuccess(DriveFile driveFile) {
+                        Timer timer = new Timer();
+                        //timer.schedule(getQuery, 0, 15000);
+//                        Query query = new Query.Builder()
+//                                .addFilter(Filters.eq(SearchableField.TITLE, filename))
+//                                .build();
+//
+//                        Task<MetadataBuffer> queryTask = mDriveResourceClient.query(query);
+//                        // [END query_files]
+//                        // [START query_results]
+//                        queryTask
+//                                .addOnSuccessListener(new OnSuccessListener<MetadataBuffer>() {
+//                                            @Override
+//                                            public void onSuccess(MetadataBuffer metadataBuffer) {
+////                                                TextView textView = (TextView) inflateView.findViewById(R.id.printthis);
+////                                                textView.setText(metadataBuffer.get(0).getDriveId().getResourceId() + "huhuhuhuhu");
+//                                            }
+//                                        })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//
+//                                    }
+//                                });
+                    }
                 });
-        // [END create_file]
-    }
 
+
+//                addOnCompleteListener(new OnCompleteListener<DriveFile>() {
+//            @Override
+//            public void onComplete(@NonNull final Task<DriveFile> task) {
+//                try {
+//
+//                    if (task.isComplete() && task.isSuccessful()) {
+//
+//                        Task<Metadata> getMetadataTask = mDriveResourceClient.getMetadata(task.getResult()).addOnSuccessListener(new OnSuccessListener<Metadata>() {
+//
+//                            @Override
+//                            public void onSuccess(Metadata metadata) {
+//                                String downloadLink = metadata.getFileExtension();
+//                                TextView textView = (TextView) inflateView.findViewById(R.id.printthis);
+//                                textView.setText(task.getResult().toString());
+//                            }
+//                        });
+//
+//
+//
+////                        DriveResource driveResource = task.getResult().getDriveId().asDriveResource();
+////                        Task<Metadata> taskMetadata = mDriveResourceClient.getMetadata(driveResource);
+////                        Metadata metadata = mDriveResourceClient.getMetadata(driveResource).getResult();
+////                        String downloadLink = metadata.getWebViewLink();
+////
+////
+////                        DriveId driveId = task.getResult().getDriveId();
+////                        DriveFile  driveFile = Drive.getDriveClient(getActivity(), );
+//
+////                        new Thread(new Runnable() {
+////                            @Override
+////                            public void run() {
+////                                try {
+////                                    DriveResource.MetadataResult mdr = task.getResult().getMetadata(mGoogleSignInClient.asGoogleApiClient()).await();
+////                                    String downloadLink = null;
+//////                                    if (mdr != null && mdr.getStatus().isSuccess()) {
+//////                                        downloadLink = mdr.getMetadata().getWebContentLink();
+//////                                    }
+////                                    calendar = Calendar.getInstance();
+////                                    String date = dateFormat.format(calendar.getTime());
+////                                    String time = dateFormat.format(calendar.getTime());
+////
+////                                    String title = notif_title.getText().toString();
+////                                    ArrayList<String> locations = myAdapter.getListState();
+////                                    String body = notif_body.getText().toString();
+////
+////                                    HashMap<String, String> user = session.getUserDetails();
+////                                    String username = user.get(SessionManager.KEY_NAME);
+////
+////                                    WebNotification notification = new WebNotification(date, time, title, locations, body, username, downloadLink);
+////                                    new AsyncSendNotificationTask(notification).execute();
+////
+////                                    new AsyncGetBeaconsTask(ResourcesFragment.this).execute();
+////
+////                                    notif_title.getText().clear();
+////                                    notif_body.getText().clear();
+////
+////                                } catch(Exception e) {
+////                                    e.printStackTrace();
+////                                }
+////
+////                            }
+////                        }).start();
+//
+//
+//                    }
+//
+//                } catch (Exception e) {
+//                    TextView textView = (TextView) inflateView.findViewById(R.id.printthis);
+//                    textView.setText(e.toString());
+//                }
+//            }
+//        });
+//        // [END create_file]
+    }
+    public void getQuery(){
+        Query query = new Query.Builder()
+                                .addFilter(Filters.eq(SearchableField.TITLE, filename))
+                                .build();
+
+                        Task<MetadataBuffer> queryTask = mDriveResourceClient.query(query);
+                        // [END query_files]
+                        // [START query_results]
+                        queryTask
+                                .addOnSuccessListener(new OnSuccessListener<MetadataBuffer>() {
+                                            @Override
+                                            public void onSuccess(MetadataBuffer metadataBuffer) {
+                                                TextView textView = (TextView) inflateView.findViewById(R.id.printthis);
+                                                textView.setText(metadataBuffer.get(0).getDriveId().getResourceId() + "huhuhuhuhu" +metadataBuffer.get(0).getWebContentLink());
+                                            }
+                                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+    }
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -280,14 +417,14 @@ public class ResourcesFragment extends Fragment implements AsyncResponse {
     @Override
     public void retrieveBeacons(ArrayList<Beacon> bList) {
 
-        try{
+        try {
             beaconArray.clear();
             for (int i = 0; i < bList.size(); i++) {
-                if(!(bList.get(i).getLocationName().equalsIgnoreCase("NA"))){
+                if (!(bList.get(i).getLocationName().equalsIgnoreCase("NA"))) {
                     this.beaconArray.add(bList.get(i));
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             e.getMessage();
         }

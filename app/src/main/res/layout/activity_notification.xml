@@ -30,44 +30,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/border"
         android:gravity="center"
-        android:text="Notification"
+        android:text="You are logged in."
         android:textColor="@color/black"
         android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/notif_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
-        android:text="Date here date here"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/notif_show_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
-        android:singleLine="true"
-        android:text="Notification title:"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/notif_show_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="2dp"
-        android:singleLine="true"
-        android:text="Notification body notification body notification body"
-        android:textColor="@color/black" />
 
 </LinearLayout>

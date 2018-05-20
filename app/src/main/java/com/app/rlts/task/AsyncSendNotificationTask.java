@@ -31,7 +31,7 @@ public class AsyncSendNotificationTask extends AsyncTask<String, String, String>
     protected String doInBackground(String... params) {
 
         try{
-            url = new URL("http://192.168.0.12:3000/sendNotification/web");
+            url = new URL("http://192.168.22.13:3000/sendNotification/web");
         }catch (Exception e){
             e.printStackTrace();
             return e.getMessage();
@@ -53,7 +53,8 @@ public class AsyncSendNotificationTask extends AsyncTask<String, String, String>
                     .appendQueryParameter("title", this.notification.getTitle())
                     .appendQueryParameter("send_to", locations)
                     .appendQueryParameter("body", this.notification.getBody())
-                    .appendQueryParameter("username", this.notification.getUsername());
+                    .appendQueryParameter("username", this.notification.getUsername())
+                    .appendQueryParameter("downloadLink", this.notification.getDownloadLink());
             String query = builder.build().getEncodedQuery();
 
             OutputStream output = conn.getOutputStream();

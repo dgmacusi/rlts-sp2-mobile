@@ -10,8 +10,9 @@ public class WebNotification {
     private ArrayList<String> sendTo;
     private String body;
     private String username;
+    private String downloadLink;
 
-    public WebNotification(String date, String time, String title, ArrayList<String> sendTo, String body, String username){
+    public WebNotification(String date, String time, String title, ArrayList<String> sendTo, String body, String username, String downloadLink){
 
         this.date = date;
         this.time = time;
@@ -19,6 +20,7 @@ public class WebNotification {
         this.sendTo = sendTo;
         this.body = body;
         this.username = username;
+        this.downloadLink = downloadLink;
     }
 
     public String getDate() {
@@ -45,6 +47,10 @@ public class WebNotification {
         return username;
     }
 
+    public String getDownloadLink() {
+        return downloadLink;
+    }
+
     public void setDate(String date) {
         this.date = date;
     }
@@ -67,5 +73,9 @@ public class WebNotification {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setDownloadLink(String downloadLink) {
+        this.downloadLink = downloadLink;
     }
 }

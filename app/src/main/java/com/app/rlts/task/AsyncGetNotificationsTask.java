@@ -41,7 +41,7 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
         type = params[0];
 
         try{
-            url = new URL("http://192.168.0.12:3000/getAllNotifications/web");
+            url = new URL("http://192.168.22.13:3000/getAllNotifications/web");
         }catch (Exception e){
             e.printStackTrace();
             return e.getMessage();
@@ -89,8 +89,9 @@ public class AsyncGetNotificationsTask extends AsyncTask<String, String, String>
                     String sender = n.getString("sender");
                     String title = n.getString("title");
                     String body = n.getString("body");
+                    String downloadLink = n.getString("downloadLink");
 
-                    Notification notification = new Notification(beaconId, notificationId, sender, title, body);
+                    Notification notification = new Notification(beaconId, notificationId, sender, title, body, downloadLink);
                     notifications.add(notification);
                 }
 

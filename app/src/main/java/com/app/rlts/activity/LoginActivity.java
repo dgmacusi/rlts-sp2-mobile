@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try{
-                url = new URL("http://192.168.0.12:3000/login/web");
+                url = new URL("http://192.168.22.13:3000/login/web");
             }catch(MalformedURLException e){
                 e.printStackTrace();
                 return "exception";
@@ -179,9 +179,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 session.loginSession(username, type);
 
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(i);
-                LoginActivity.this.finish();
+                if(type.equalsIgnoreCase("student")){
+
+                    Intent i = new Intent(LoginActivity.this, NotificationActivity.class);
+                    startActivity(i);
+                    LoginActivity.this.finish();
+                }else{
+
+                    Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(i);
+                    LoginActivity.this.finish();
+                }
 
             }else if(result.equalsIgnoreCase("false")){
 

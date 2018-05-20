@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.app.rlts.R;
 import com.app.rlts.activity.TimelogActivity;
@@ -100,9 +99,6 @@ public class StudentTeacherFragment extends Fragment implements AsyncTimelogResp
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        TextView checkview = (TextView) inflateView.findViewById(R.id.checkview);
-        checkview.setText(tArray.get(0).getDate());
 
         Intent i = new Intent(getActivity(), TimelogActivity.class);
 

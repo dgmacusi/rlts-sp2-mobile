@@ -7,14 +7,16 @@ public class Notification {
    private String sender;
    private String title;
    private String body;
+   private String downloadLink;
 
-    public Notification(int beaconId, int notificationId, String sender, String title, String body){
+    public Notification(int beaconId, int notificationId, String sender, String title, String body, String downloadLink){
 
         this.beaconId = beaconId;
         this.notificationId = notificationId;
         this.sender = sender;
         this.title = title;
         this.body = body;
+        this.downloadLink = downloadLink;
     }
 
     public int getBeaconId() {
@@ -37,6 +39,10 @@ public class Notification {
         return body;
     }
 
+    public String getDownloadLink() {
+        return downloadLink;
+    }
+
     public void setBeaconId(int beaconId) {
         this.beaconId = beaconId;
     }
@@ -55,5 +61,9 @@ public class Notification {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public void setDownloadLink(String downloadLink) {
+        this.downloadLink = downloadLink;
     }
 }
